@@ -1,0 +1,41 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+  application:
+    name: geremi
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:cerema_test_db?currentSchema=cerema;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false
+    username: test
+    password:
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        default_schema: cerema
+  flyway:
+    locations: classpath:db.migration/
+    schemas: cerema
+    create-schemas: true
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: https://orion-recette.cerema.fr/auth/realms/CeremaApps/protocol/openid-connect/certs
+
+
+info:
+  app:
+    audience: geremi
+    issuer: https://orion-recette.cerema.fr/auth/realms/CeremaApps
+    version: '@project.version@'
+    mail:
+      host: maildev.lyon.sqli.com
+      port: 25
+      username:
+      password:
+      auth: "false"
+      tls: "false"
+      from: "pyramid@cerema.fr"
+

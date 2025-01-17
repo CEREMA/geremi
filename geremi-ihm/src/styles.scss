@@ -1,0 +1,175 @@
+/* You can add global styles to this file, and also import other style files */
+$gutter: 1rem; //for primeflex grid system
+
+/* Layout */
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../../node_modules/primeng/resources/primeng.min.css";
+@import "../../node_modules/primeng/resources/themes/saga-blue/theme.css";
+@import "../../node_modules/primeflex/primeflex.scss";
+@import "../../node_modules/primeicons/primeicons.css";
+
+/* Demos */
+@import "assets/geremi/styles/flags/flags.css";
+@import "assets/geremi/styles/badges.scss";
+
+/* geremi */
+@import "assets/geremi/styles/geremi_leaflet.css";
+
+/* Syntax highlighting */
+//@import '~highlight.js/styles/agate.css';
+@import '~highlight.js/styles/felipec.css';
+//@import '~highlight.js/styles/tomorrow-night-blue.css';
+//
+
+//@import "geremi\components\carto\view\carto.component.css";
+
+:root {
+    --region-color: #FF5733;
+    --region-fill: #FFC300;
+    --region-opacity: 1;
+    --region-weight: 2;
+    --region-fill-opacity: 0;
+
+    --departement-color: #2980B9;
+    --departement-fill: #A9CCE3;
+    --departement-opacity: 1;
+    --departement-weight: 2;
+    --departement-fill-opacity: 0;
+
+    --commune-color: #154360;
+    --commune-fill: #7FB3D5;
+    --commune-opacity: 1;
+    --commune-weight: 2;
+    --commune-fill-opacity: 0;
+
+    --bassinvie-color: #9B59B6;
+    --bassinvie-fill: #D7BDE2;
+    --bassinvie-opacity: 1;
+    --bassinvie-weight: 2;
+    --bassinvie-fill-opacity: 0;
+
+    --zoneemploi-color: #1B4F72;
+    --zoneemploi-fill: #85C1E9;
+    --zoneemploi-opacity: 1;
+    --zoneemploi-weight: 2;
+    --zoneemploi-fill-opacity: 0;
+
+    --epci-color: #1E8449;
+    --epci-fill: #A2D9CE;
+    --epci-opacity: 1;
+    --epci-weight: 2;
+    --epci-fill-opacity: 0;
+
+    --autre-color: #1B4F72;
+    --autre-fill: #85C1E9;
+    --autre-opacity: 1;
+    --autre-weight: 1;
+    --autre-fill-opacity: 0;
+
+    --contraintefaible-affiche-color: #FFFF00;
+    --contraintefaible-affiche-fill: #FFFF00;
+    --contraintefaible-affiche-opacity: 0.7;
+    --contraintefaible-affiche-weight: 1;
+    --contraintefaible-affiche-fill-opacity: 0.7;
+
+    --contraintefaible-cache-color: #FFFF00;
+    --contraintefaible-cache-fill: #FFFF00;
+    --contraintefaible-cache-opacity: 0.2;
+    --contraintefaible-cache-weight: 1;
+    --contraintefaible-cache-fill-opacity: 0.2;
+
+    --contraintemoyenne-affiche-color: #FFA500;
+    --contraintemoyenne-affiche-fill: #FFA500;
+    --contraintemoyenne-affiche-opacity: 0.7;
+    --contraintemoyenne-affiche-weight: 1;
+    --contraintemoyenne-affiche-fill-opacity: 0.7;
+
+    --contraintemoyenne-cache-color: #FFA500;
+    --contraintemoyenne-cache-fill: #FFA500;
+    --contraintemoyenne-cache-opacity: 0.2;
+    --contraintemoyenne-cache-weight: 1;
+    --contraintemoyenne-cache-fill-opacity: 0.2;
+
+    --contrainteforte-affiche-color: #FF0000;
+    --contrainteforte-affiche-fill: #FF0000;
+    --contrainteforte-affiche-opacity: 0.7;
+    --contrainteforte-affiche-weight: 1;
+    --contrainteforte-affiche-fill-opacity: 0.7;
+
+    --contrainteforte-cache-color: #FF0000;
+    --contrainteforte-cache-fill: #FF0000;
+    --contrainteforte-cache-opacity: 0.2;
+    --contrainteforte-cache-weight: 1;
+    --contrainteforte-cache-fill-opacity: 0.2;
+
+    --chantier-affiche-color: #000000;
+    --chantier-affiche-fill: #000000;
+    --chantier-affiche-opacity: 0.7;
+    --chantier-affiche-weight: 3;
+    --chantier-affiche-fill-opacity: 0.7;
+
+    --chantier-cache-color: #000000;
+    --chantier-cache-fill: #000000;
+    --chantier-cache-opacity: 0.2;
+    --chantier-cache-weight: 3;
+    --chantier-cache-fill-opacity: 0.2;
+
+    --stockage-affiche-color: #0000ff;
+    --stockage-affiche-fill: #0000ff;
+    --stockage-affiche-opacity: 1;
+    --stockage-affiche-weight: 3;
+    --stockage-affiche-fill-opacity: 0.7;
+
+    --stockage-cache-color: #8080ff;
+    --stockage-cache-fill: #0000ff;
+    --stockage-cache-opacity: 1;
+    --stockage-cache-weight: 3;
+    --stockage-cache-fill-opacity: 0.3;
+
+    --stockagenonactive-affiche-color: #808080;
+    --stockagenonactive-affiche-fill: #808080;
+    --stockagenonactive-affiche-opacity: 1;
+    --stockagenonactive-affiche-weight: 3;
+    --stockagenonactive-affiche-fill-opacity: 1;
+
+    --rouge-fill: #e60000;
+    --orange-fill: #faa200;
+    --vert-fill: #008b07;
+}
+
+// Pour que le fond ne soit pas griser lors de l'ouverture d'une sidebar
+.p-sidebar-mask.p-component-overlay {
+    display: none !important;
+}
+
+.color-etiquette-rouge {
+    background-color: #ff3030 !important;
+    border-color: #ff3030 !important;
+    opacity: 0.9 !important;
+}
+
+.color-etiquette-orange {
+    background-color: #ffb938 !important;
+    border-color: #ffb938 !important;
+    opacity: 0.9 !important;
+}
+
+.color-etiquette-vert {
+    background-color: #00c40a !important;
+    border-color: #00c40a !important;
+    opacity: 0.9 !important;
+}
+
+.color-font-rouge {
+    color: #e60000;
+}
+
+.color-font-orange {
+    color: #faa200;
+}
+
+.color-font-vert {
+    color: #008b07;
+}

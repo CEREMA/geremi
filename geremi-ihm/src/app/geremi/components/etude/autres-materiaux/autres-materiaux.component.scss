@@ -1,0 +1,69 @@
+:host ::ng-deep {
+    .div-autres-materiaux-table{
+      padding: 0rem;
+    }
+    .table-autres-materiaux-border{
+      padding-top: 6px;
+      background-color: white;
+      background-image: none;
+    }
+    .table-border-comp{
+      border:1px solid #e9ecef;
+      border-collapse: separate;
+      border-radius: 5px;
+    }
+    .div-flex-spacebetween-align-center{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    .div-autres-materiaux-img{
+      display: flex;
+    }
+    .div-autres-materiaux-etude{
+      padding-top: 1rem;
+    }
+    .div-telecharge-modele{
+      padding-top: 1rem;
+    }
+    .td-nom-class{
+      width : 85%;
+      padding: 0.5rem 0.3rem !important;
+      border-width: 0 !important;
+    }
+
+    .td-icon-class{
+      padding: 0.5rem 0.3rem !important;
+      border-width: 0 !important;
+    }
+
+    .i-icon {
+      border: 0 none;
+      background: transparent;
+      border-radius: 50%;
+      transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+
+    .button-no-hover:enabled:hover{
+      border-color: transparent;
+      background: white;
+    }
+
+    .div-button-modif{
+      margin-top: 5rem;
+      padding-top: 1rem;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .padding-bot{
+      padding-bottom: 1.2rem;
+    }
+    .label-strong-width-max{
+      font-weight: 600;
+      width: 100%;
+    }
+    .input-modif-autres-materiaux{
+      width: 8rem !important;
+      text-align: center;
+    }
+}

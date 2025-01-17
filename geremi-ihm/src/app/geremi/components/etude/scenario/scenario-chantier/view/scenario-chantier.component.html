@@ -1,0 +1,25 @@
+<div class="div-autres-chantiers">
+    <div class="div-flex-spacebetween-align-center padding-bot">
+        <label for="chantiers"><b>Sélectionnez le ou les chantier(s) du scénario :</b></label>
+    </div>
+    <p-table [value]="chantiers" [responsive]="true" id="chantiers" class="table-autres-chantiers-border" tableStyleClass="table-border-comp">
+        <ng-template pTemplate="body" let-rowData let-rowIndex="chantiers">
+          <ng-container>
+            <tr>
+              <td class="checkbox-cell"><input type="checkbox" [value]="rowData.id_chantier" (change)="onChantierSelected($event, rowData)"
+                [checked]="isChecked(rowData.id_chantier)" [disabled]="isDisabled()"></td>
+              <td class="td-nom-class">
+                {{rowData.nom}}<br>
+                {{rowData.annee_debut}}/{{rowData.annee_fin}}<br>
+                Tonnes totales : {{rowData.ton_tot}} kt
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+    </p-table>
+  </div>
+
+  <div style="text-align: center;" class="padding-top">
+      <button pButton type="button" label="Valider" class="p-button-rounded" [ngClass]="((isDisabled() || notChanged())  && isStepStatePassed(EtapeScenario.CHANTIERS_SCENARIO)) ? 'p-button-secondary' : 'p-button-success'"
+              name="valider" (click)="ajoutChantierScenario()" [disabled]="(isDisabled() || notChanged()) && isStepStatePassed(EtapeScenario.CHANTIERS_SCENARIO)"></button>
+    </div>

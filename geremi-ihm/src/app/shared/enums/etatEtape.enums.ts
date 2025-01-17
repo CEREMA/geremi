@@ -1,0 +1,7 @@
+export enum EtatEtape {
+  VALIDE = 'VALIDE',
+  IMPORTE = 'IMPORTE',
+  MODIFIE = 'MODIFIE',
+  NON_RENSEIGNE = 'NON_RENSEIGNE',
+  VALIDE_VIDE = "VALIDE_VIDE"
+}

@@ -1,0 +1,45 @@
+<overlay></overlay>
+<div class= "container">
+  <p-toast position="top-right"></p-toast>
+  <app-etude class="sidebar-tab etude" [ngClass]="[displayEtude]" [selectedYear]="selectedYear"
+    (openSideBarEvent)="openSideBarEvent($event)"
+    (layerTerritoireEvent)="toggleLayerTerritoire($event)"
+    (displayZonageEvent)="displayZonageFromEtude($event)"
+    (displayZonageImportEvent)="displayZonageFromImport($event)"
+    (layerZonageEvent)="toggleLayerZonage($event)"
+    (displayPopulationEvent)="onUploadFile($event)"
+    (selectedYearEtudeEvent)="selectedYearEtudeEvent($event)"
+    (displayEtablissementEtudeEvent)="displayEtablissementsEtudeEvent($event)"
+    >
+  </app-etude>
+  <app-suivi-etude class="sidebar-tab" [ngClass]="[displaySuiviEtude]" [selectedYear]="selectedYear"
+    (openSideBarEvent)="openSideBarEvent($event)"
+    (displayZonageEvent)="displayZonageFromEtude($event)"
+    (displayEtablissementEtudeEvent)="displayEtablissementsEtude($event, true)"
+    (selectedYearEtudeEvent)="selectedYearEtudeEvent($event)">
+  </app-suivi-etude>
+  <app-config-carto class="sidebar-tab" [ngClass]="[displayConfig]" [selectedYear]="selectedYear"
+    (openSideBarEvent)="openSideBarEvent($event)"
+    (selectedYearConfigEvent)="selectedYearConfigEvent($event)">
+  </app-config-carto>
+  
+  <import-etude class="sidebar-tab etude" [ngClass]="[displayImportEtude]" [selectedYear]="selectedYear"
+    (openSideBarEvent)="openSideBarEvent($event)"
+    (layerTerritoireEvent)="toggleLayerTerritoire($event)"
+    (displayZonageEvent)="displayZonageFromEtude($event)"
+    (displayZonageImportEvent)="displayZonageFromImport($event)"
+    (layerZonageEvent)="toggleLayerZonage($event)"
+    (displayPopulationEvent)="onUploadFile($event)"
+    (selectedYearEtudeEvent)="selectedYearEtudeEvent($event)"
+    (displayEtablissementEtudeEvent)="displayEtablissementsEtude($event , false)"
+    >
+  </import-etude>
+
+  <div class ="map" leaflet
+      (leafletMapMoveEnd)="onMoveEnd()"
+      (leafletMapReady)="onMapReady($event)"
+      [leafletMarkerCluster]="layer"
+      [leafletOptions]="options">
+  </div>
+  <app-panneau-lateral (focusEvent)="focusOnMarker()" #panneauLateral></app-panneau-lateral>
+</div>

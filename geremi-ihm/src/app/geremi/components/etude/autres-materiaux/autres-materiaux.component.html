@@ -1,0 +1,50 @@
+<p-dialog [header]="nomDialog" [(visible)]="ajoutMateriauDialog" [modal]="true" [style]="{ width: '30rem', height : '30rem' }" [draggable]="false" [resizable]="true">
+    <div [formGroup]="formAutreMateriau">
+      <div class="p-fluid p-grid p-formgrid">
+        <div class="padding-bot" style="padding-top: 0.5rem;">
+          <label for="libelle" class="label-strong-width-max">Matériau : * </label>
+          <p-dropdown [options]="listeMateriauDisponible" formControlName="libelle" placeholder="Choisir Matériau" [editable]="true" [filter]="true" filterBy="libelle" optionLabel="libelle" optionValue="libelle" (onChange)="onChangeMateriau($event)"></p-dropdown>
+        </div>
+        <div class="padding-bot">
+          <label for="origine" class="label-strong-width-max">Origine : * </label>
+          <p-dropdown [options]="listeOrigine" formControlName="origine" placeholder="Choisir Origine"></p-dropdown>
+        </div>
+        <div class="padding-bot">
+          <label for="tonnage" class="label-strong-width-max">Tonnage (kt) : * </label>
+          <input pInputText pKeyFilter="int" id="tonnage" formControlName="tonnage" [min]="0" class="input-modif-autres-materiaux">
+        </div>
+      </div>
+    </div>
+    <div class="div-button-modif" >
+      <button type="button" pButton icon="pi pi-times" label="Annuler" class="p-button-outlined" style="margin-right: 1rem;" (click)="annuler()"></button>
+      <div [pTooltip]="tooltipValidation()" tooltipPosition="top" [tooltipOptions]="tooltipOptionsMessage" [escape]="false">
+        <button type="button" pButton icon="pi pi-check" label="Valider matériaux" [disabled]="!formAutreMateriau.valid" (click)="validerMateriau()"></button>
+      </div>
+    </div>
+</p-dialog>
+
+<div class="div-autres-materiaux">
+    <div class="div-flex-spacebetween-align-center padding-bot">
+        <label for="autresMateriaux"><b>Autres matériaux de l'étude :</b></label>
+        <button pButton class="p-button-secondary p-button-text" label="Ajouter" icon="pi pi-plus" iconPos="right" (click)="clickAjout()" [disabled]="isEtapeScenario()"></button>
+    </div>
+    <p-table [value]="autresMateriaux" [responsive]="true" id="autresMateriaux" class="table-autres-materiaux-border" tableStyleClass="table-border-comp">
+        <ng-template pTemplate="header">
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="autresMateriaux">
+          <ng-container>
+            <tr>
+              <td class="td-nom-class">
+                {{ rowData.libelle }} - {{rowData.origine}} - {{rowData.tonnage}} kt
+              </td>
+              <td class="td-icon-class">
+                <div class="div-autres-materiaux-img">
+                  <button class="pi pi-pencil icon-pointer i-icon button-no-hover" [disabled]="isEtapeScenario()" (click)="clickModification(rowData)" pTooltip="Modifier"></button>
+                  <button class="pi pi-trash icon-pointer i-icon button-no-hover" [disabled]="isEtapeScenario()" (click)="clickSuppr(rowData)" pTooltip="Supprimer"></button>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+    </p-table>
+</div>

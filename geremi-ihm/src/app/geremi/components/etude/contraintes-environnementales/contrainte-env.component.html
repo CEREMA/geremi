@@ -1,0 +1,73 @@
+<div class="div-contrainte-table">
+  <div class="div-contrainte-existante">
+    <label for="contraintesExistantes"><b>Contraintes Existantes :</b></label>
+    <p-table [value]="contraintesExistantes" [responsive]="true" id="contraintesExistantes" class="table-contrainte-border" tableStyleClass="table-border-comp">
+      <ng-template pTemplate="header">
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-rowIndex="contraintesExistantes">
+        <ng-container>
+          <tr>
+            <td class="td-nom-class">{{ rowData.nom }} - niveau : {{rowData.niveau}}</td>
+            <td class="td-icon-class">
+              <div class="div-contrainte-img">
+                <button [ngClass]="rowData.afficher ? 'pi pi-eye icon-pointer i-icon button-no-hover' : 'pi pi-eye-slash icon-pointer i-icon button-no-hover'"
+                  (click)="clickEye(rowData)" pTooltip="Afficher">
+                </button>
+                <button class="pi pi-arrow-down icon-pointer i-icon button-no-hover" (click)="clickArrowDown(rowData)" [disabled]="isEtapeScenario() || isLectureSeule()" pTooltip="Ajouter"></button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
+  </div>
+  <div class="div-contrainte-etude">
+    <label for="contraintesEtude"><b>Contraintes de l'étude :</b></label>
+    <p-table [value]="contraintesEtude" [responsive]="true" id="contraintesEtude" class="table-contrainte-border" tableStyleClass="table-border-comp">
+      <ng-template pTemplate="header">
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-rowIndex="contraintesEtude">
+        <ng-container>
+          <tr>
+            <td class="td-nom-class">{{ rowData.nom }} - niveau : {{rowData.niveau}}</td>
+            <td class="td-icon-class">
+              <div class="div-contrainte-img">
+                <button [ngClass]="rowData.afficher ? 'pi pi-eye icon-pointer i-icon button-no-hover' : 'pi pi-eye-slash icon-pointer i-icon button-no-hover'"
+                (click)="clickEye(rowData)" pTooltip="Afficher">
+                </button>
+                <button *ngIf="rowData.supprimable; else arrowUp" class="pi pi-trash icon-pointer i-icon button-no-hover" [disabled]="isEtapeScenario() || isLectureSeule()"
+                (click)="clickSuppr(rowData)" pTooltip="Supprimer">
+                </button>
+                <ng-template #arrowUp>
+                  <button class="pi pi-arrow-up icon-pointer i-icon button-no-hover" [disabled]="isEtapeScenario() || isLectureSeule()"
+                  (click)="clickArrowUp(rowData)" pTooltip="Supprimer">
+                  </button>
+                </ng-template>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </ng-template>
+    </p-table>
+    </div>
+
+    <div class="p-fluid">
+      <div class="div-telecharge-modele">
+        <p-button label="Télécharger le modèle" icon="pi pi-download" iconPos="right" (onClick)="telechargerModele()"></p-button>
+      </div>
+
+      <div style="padding: 1rem 1rem; display: inline;">
+        <p-fileUpload #fileuploadform mode="basic" accept=".cpg, .dbf, .prj, .shp, .shx, .gpkg, .zip"
+          name="myFiles[]" [multiple]='true' [showUploadButton]="false"
+          [showCancelButton]="false" [auto]="true" [customUpload]="true"
+          (uploadHandler)="uploadContrainteEtude($event, fileuploadform)"
+          (onSelect)="validateInputFiles($event, fileuploadform)"
+          chooseLabel="Importer" pTooltip="{{ messageToolTipBouton }}"
+          tooltipPosition="top" [tooltipOptions]="tooltipOptionsMessage"
+          [escape]="false" [fitContent]="false" [disabled]="isEtapeScenario() || isLectureSeule()">
+        </p-fileUpload>
+      </div>
+      <p-messages [escape]="false" key="contrainte"></p-messages>
+      <p-messages [escape]="false"></p-messages>
+    </div>
+  </div>

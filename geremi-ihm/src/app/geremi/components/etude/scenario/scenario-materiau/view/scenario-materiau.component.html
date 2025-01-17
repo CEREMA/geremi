@@ -1,0 +1,63 @@
+<div class="div-autres-materiaux">
+    <div class="div-flex-spacebetween-align-center padding-bot">
+        <label for="materiaux"><b>Sélectionnez le ou les matériau(x) du scénario:</b></label>
+    </div>
+    <p-table [value]="materiaux" [responsive]="true" id="materiaux" class="table-autres-materiaux-border" tableStyleClass="table-border-comp">
+      <ng-template pTemplate="body" let-rowData let-rowIndex="materiaux">
+          <ng-container>
+            <tr>
+              <td class="checkbox-cell">
+                <input type="checkbox" [value]="rowData.id_materiau" (change)="onMateriauSelected($event, rowData)" [checked]="isChecked(rowData.id_materiau)" [disabled]="isDisabled()">
+              </td>
+              <td class="td-nom-class">
+                {{rowData.libelle}}<br>
+                Tonnage total : {{rowData.tonnage}} kt
+              </td>
+            </tr>
+            <tr *ngIf="isChecked(rowData.id_materiau)">
+              <td colspan="2" style="height: 100%; padding: 0rem;">
+                <table>
+                    <tr>
+                      <th class="th-header-zone">Zone</th>
+                      <th class="th-header-ventilation">Ventil.</th>
+                      <th class="th-header-tonnage">Tonnage</th>
+                    </tr>
+                    <tr *ngFor="let relation of rowData.scenario_materiau; index as i">
+                      <td class="td-dropdown-zone">
+                        <p-dropdown [options]="filterZone(rowData.scenario_materiau,relation)" placeholder="Choisir Zone" styleClass="dropdown-zone"
+                          [editable]="false" optionLabel="nom" optionValue="id_zone" [(ngModel)]="relation.id_zone"
+                          (onChange)="onChangeZone($event, relation)" [disabled]="isDisabled()">
+                        </p-dropdown>
+                      </td>
+                      <td class="td-input-class">
+                        <p-inputNumber pKeyFilter="int" [min]="0" [max]="100" inputStyleClass="input-class" [(ngModel)]="relation.pourcent"
+                          suffix=" %" (onInput)="onChangeVentilation(relation, $event)" [disabled]="isDisabled()">
+                        </p-inputNumber>
+                      </td>
+                      <td class="td-input-class">
+                        <p-inputNumber pKeyFilter="int" inputStyleClass="input-class-tonnage" suffix=" kt" [minFractionDigits]="3"
+                          [disabled]="true" [(ngModel)]="relation.tonnage">
+                        </p-inputNumber>
+                      </td>
+                      <td class="">
+                        <button *ngIf="i > 0" class="pi pi-trash icon-pointer i-icon button-no-hover"
+                          [disabled]="isDisabled()" (click)="clickSuppr(rowData.scenario_materiau,i)" pTooltip="Supprimer"></button>
+                      </td>
+                    </tr>
+                    <tr *ngIf="ajoutZoneShow(rowData.id_materiau)">
+                      <button pButton class="p-button-secondary p-button-text" label="Ajouter Zone" icon="pi pi-plus" iconPos="left"
+                      [disabled]="isDisabled()" (click)="ajouterZone(rowData.id_materiau)"></button>
+                    </tr>
+                </table>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+    </p-table>
+</div>
+
+<div style="text-align: center;" class="padding-top">
+    <button pButton type="button" label="Valider" class="p-button-rounded" [ngClass]="(!verificationAjout() || isDisabled()) || (notChanged() && isStepStatePassed(EtapeScenario.MATERIAUX_SCENARIO)) ? 'p-button-secondary' : 'p-button-success'"
+      [disabled]="(!verificationAjout() || isDisabled()) || (notChanged() && isStepStatePassed(EtapeScenario.MATERIAUX_SCENARIO))" name="valider" (click)="ajoutMateriauScenario()" [pTooltip]="tooltipValideAjout()">
+    </button>
+</div>

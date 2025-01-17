@@ -1,0 +1,159 @@
+:host ::ng-deep {
+
+  .p-accordion .legendTitle .p-accordion-tab .p-accordion-header .p-accordion-header-link {
+    background-color: #1E8BE1;
+    color: white;
+  }
+
+  .legend-container {
+    position: absolute;
+    bottom: 10px;
+    left: 30px;
+    background-color: #FAFAFA !important;
+    padding: 15px;
+    border: 1px solid #E0E0E0 !important;
+    border-radius: 8px;
+    z-index: 1000;
+    min-height: 100px;
+    max-height: 80vh;
+    opacity: 0.95;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    overflow-y: auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+    width: max-content;
+    max-width: 26rem;
+
+    &.sidebar-open {
+      left: calc(20px + 362px);
+    }
+
+    &.second-sidebar-open {
+      left: calc(20px + 362px + 322px);
+    }
+
+    &.expanded {
+      width: 100%;
+    }
+  }
+
+  .legend-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
+    margin-bottom: 8px;
+
+    &.full-width {
+      width: 100%;
+    }
+  }
+
+  .label-style {
+    font-size: 12px;
+    font-weight: bold;
+    text-align: right;
+    margin-right: 10px;
+    color: #555;
+  }
+
+  .legend-dropdown {
+    display: flex;
+    margin-bottom: 15px;
+
+    &.full-width {
+      width: 100%;
+    }
+  }
+
+  .legend-menu {
+    width: 100%;
+    max-height: calc(100% - 60px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #f9f9f9 !important;
+    border-radius: 5px;
+    overflow-y: auto;
+    transition: all 0.3s ease-in-out;
+  }
+
+  p-inputNumber {
+    width: 100%;
+  }
+
+  p-accordion {
+    width: 100%;
+    border: none;
+
+    .p-accordion-header {
+      background-color: #E0E0E0 !important;
+      color: #555;
+      font-weight: 500;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #D0D0D0;
+      }
+    }
+
+    .p-accordion-content {
+      background-color: #FAFAFA !important;
+      border: none;
+      padding: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .content-padding {
+      padding: 0.8rem 1rem 1rem 0.5rem !important;
+    }
+  }
+
+
+  p-accordionTab[header="Légende"] {
+    .p-accordion-header {
+      background-color: #C0C0C0 !important;
+    }
+
+    .p-accordion-content {
+      display: none !important;
+    }
+  }
+
+  ul li img {
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+
+  li {
+    list-style-type: none;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  a.a-class {
+    color: var(--cyan-600);
+  }
+  a.a-class:hover {
+    color: var(--red-600);
+  }
+}
+
+.img-border {
+  background: white;
+  border-radius: 5px;
+}
+
+.img-radius {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.img-border:hover, .img-border:focus {
+  box-shadow: 0 0 0 0.2rem var(--primary-500);
+}
+

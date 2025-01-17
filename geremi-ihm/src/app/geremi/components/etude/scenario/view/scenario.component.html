@@ -1,0 +1,59 @@
+<p-confirmDialog #cd1 [style]="{width: '30rem'}" [baseZIndex]="10000"  key="confirmRetenu" appendTo="body">
+  <ng-template pTemplate="header">
+      <h3>Voulez-vous continuer ?</h3>
+  </ng-template>
+  <ng-template pTemplate="footer">
+      <button type="button" pButton icon="pi pi-times" label="Non" (click)="cd1.reject()"></button>
+      <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd1.accept()"></button>
+  </ng-template>
+</p-confirmDialog>
+
+<p-accordion class="scenario-accordion-content" [(activeIndex)]="activeScenario" (onOpen)="onOpenAccordion($event)" (onClose)="onCloseAccordion($event)">
+    <p-accordionTab header="Scénarios de l'étude" class="stateActive">
+        <div *ngIf="!isScenarioEnCours()" #divCreationScenario>
+            <button *ngIf="!this.etude.readOnly && !this.etude.ifImporte" class="p-button p-button-creer-scenario button-creation-scenario" (click)="toggleCreerScenario()" >
+              <i class="pi pi-plus mr-3"></i>
+              <span>Créer un scénario</span>
+            </button>
+            <div #divListeScenario>
+              <h5 class="mt-4 ml-4">Liste scénarios</h5>
+              <div class="scenario-table">
+                <p-table [value]="scenarios">
+                  <ng-template pTemplate="body" let-scenario>
+                    <tr>
+                      <td class="td-nom" rowspan="">{{scenario.nom}}<span *ngIf="scenario.if_retenu" class="span-retenu"> - retenu</span></td>
+                      <td class="td-column">
+                        <div class="field-flex-column" style="display: flex;">
+                          <i [ngClass]="readOnly(scenario) ? 'pi pi-eye icon-pointer' : 'pi pi-pencil icon-pointer padding-bot'" (click)="modifScenario(scenario)"
+                             [pTooltip]="readOnly(scenario) ? 'Consulter' : 'Modifier'">
+                          </i>
+                          <i *ngIf="!readOnly(scenario)" class="pi pi-trash icon-pointer padding-top" (click)="supprimerScenario(scenario)"
+                              pTooltip="Supprimer">
+                          </i>
+                        </div>
+                      </td>
+                      <td class="td-row">
+                        <div class="field-flex-row" style="display: flex;">
+                          <button [ngClass]="scenario.if_retenu ? 'pi pi-check-circle icon-pointer i-icon button-no-hover' : 'pi pi-circle icon-pointer i-icon button-no-hover'"
+                                  (click)="confirmationRetenu(scenario)" [pTooltip]="toolTipRetenu(scenario)"
+                                  [disabled]="!retenuPossible(scenario)">
+                          </button>
+
+                          <span style="padding-right: 1rem;"></span>
+                          <i class="pi pi-upload icon-pointer" pTooltip="Télécharger"></i>
+                        </div>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+        </div>
+    </p-accordionTab>
+
+    <div *ngIf="infoScenario" #divInformationScenario>
+      <scenario-creation *ngIf="isScenarioEnCours()" [etude]="etude" [scenarioEnCours]="scenarioEnCours" [anneeRef]="anneeRef" [listeZoneTerritoire]="listeZoneTerritoire">
+      </scenario-creation>
+    </div>
+
+</p-accordion>

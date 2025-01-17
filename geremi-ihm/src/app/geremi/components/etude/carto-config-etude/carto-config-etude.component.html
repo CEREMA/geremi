@@ -1,0 +1,62 @@
+<button *ngIf="boutonVisible && isCollapse" class="layout-config-map-button" type="button" (click)="collapse()">
+  <i class="pi pi-bars" style="font-size: 2rem;"></i>
+</button>
+<p-sidebar [visible]="!isCollapse" [baseZIndex]="10000" [closeOnEscape]="false">
+
+  <div class="p-sidebar-header-custom">
+    <h5 style="margin-top : 1.5rem;">CARTOGRAPHIE</h5>
+
+    <button type="button" pripple class="p-ripple p-element p-sidebar-close p-sidebar-icon p-link" (click)="collapse()" >
+        <span class="p-sidebar-close-icon pi pi-times"></span>
+        <span class="p-ink" style="height: 26px; width: 26px; top: -2.25px; left: -9.75px;"></span>
+    </button>
+  </div>
+
+  <p-accordion>
+    <p-accordionTab header="Fonds de carte">
+      <div class="flex flex-row">
+        <div class="flex flex-column align-content-start flex-wrap m-2 img-border" (click)="toggleBackground('OSM')">
+          <div class="flex align-items-center click justify-content-center">
+            <img
+                src="/assets/geremi/images/osm-background.jpg"
+                alt=""
+                class="img-radius"><br>
+          </div>
+          <div class="flex align-items-center justify-content-center">
+            <b>OSM</b>
+          </div>
+        </div>
+          <div class="flex flex-column align-content-start flex-wrap m-2 img-border" (click)="toggleBackground('IGN')">
+            <div class="flex align-items-center click justify-content-center">
+              <img
+                  src="/assets/geremi/images/ign-background.jpg"
+                  alt=""
+                  class="img-radius"><br>
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              <b>IGN</b>
+            </div>
+          </div>
+      </div>
+      <div class="flex flex-row">
+        <div class="flex flex-column align-content-start flex-wrap m-2 img-border" (click)="toggleBackground('BRGM')">
+          <div class="flex align-items-center click justify-content-center">
+            <img
+              src="/assets/geremi/images/brgm-background.jpg"
+              alt=""
+              class="img-radius">
+          </div>
+          <div class="flex align-items-center justify-content-center">
+            <b>BRGM</b>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Autres couches">
+      <div *ngFor="let layer of extraLayers">
+        <p-checkbox name="activeExtraLayers" [(ngModel)]="activeExtraLayer" [value]="layer.code" label="{{layer.label}}" (onChange)="toggleExtraLayer(layer.code)"></p-checkbox>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</p-sidebar>
+

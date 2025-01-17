@@ -1,0 +1,116 @@
+<p-accordion class="scenario-inside-accordion-content" [(activeIndex)]="activeIndexStepCalcul" (onOpen)="onOpen($event)">
+    <p-accordionTab header="Hypothèse de ventilation" [ngClass]="isStepStatePassedOrActive(EtapeScenario.HYPOTHESE_VENTILATION_SCENARIO)" headerStyleClass=custom-header-accordeon>
+
+        <div *ngIf="departementsPartielsTer.length === 0">
+            <p>Tous les départements concernés par l'étude sont totalement inclus dans le territoire, il n'y a pas de département partiellement inclus dans le territoire.</p>
+        </div>
+
+        <div *ngIf="departementsPartielsTer.length > 0" class="div-ventilation-materiaux">
+            <div class="p-fluid p-grid p-formgrid">
+                <p style="font-weight: 500;">Répartition sur les départements</p>
+                <p>Part des matériaux arrivant sur les départements partiellement inclus dans le territoire
+                    (Par défault : % de surface incluse dans le territoire)
+                </p>
+            </div>
+            <p-table [value]="departementsPartielsTer" [responsive]="true" class="table-ventilation-materiaux" tableStyleClass="table-border-comp">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="th-header-departement">Départements</th>
+                        <th class="th-header-beton">Béton/Préf.</th>
+                        <th class="th-header-viab">Viab./Autres</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-departementPartielTer>
+                    <tr>
+                        <td class="td-class">{{departementPartielTer.nom}}</td>
+                        <td class="td-class">
+                            <p-inputNumber pKeyFilter="int" [min]="0" [max]="100" inputStyleClass="input-class" [(ngModel)]="departementPartielTer.repartition_departement_beton"
+                                suffix=" %" (onInput)="onChangeBeton($event,departementPartielTer)" [disabled]="isDisabled()">
+                            </p-inputNumber>
+                        </td>
+                        <td class="td-class">
+                            <p-inputNumber pKeyFilter="int" [min]="0" [max]="100" inputStyleClass="input-class" [(ngModel)]="departementPartielTer.repartition_departement_viab"
+                                suffix=" %" (onInput)="onChangeViab($event,departementPartielTer)" [disabled]="isDisabled()">
+                            </p-inputNumber>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div>
+            <p class="p-ponderation">Pondération surface/population :</p>
+            <p class="p-ponderation-label">Béton :</p>
+            <div class="div-ponderation">
+                <span class="span-ponderation"><i>Surface</i></span>
+                <div class="div-ponderation-slider">
+                    <div class="div-span-surface">
+                        <span class="span-surface">{{ valueSurfaceBeton }} %</span>
+                        <span class="span-surface">{{ 100 - valueSurfaceBeton }} %</span>
+                    </div>
+                    <p-slider [(ngModel)]="valueSurfaceBeton" [disabled]="isDisabled()"></p-slider>
+                </div>
+                <span class="span-ponderation"><i>Population</i></span>
+            </div>
+            <p style="padding-top: 0.5rem;" class="p-ponderation-label">Viabilité :</p>
+            <div class="div-ponderation">
+                <span class="span-ponderation"><i>Surface</i></span>
+                <div class="div-ponderation-slider">
+                    <div class="div-span-surface">
+                        <span class="span-surface">{{ valueSurfaceViab }} %</span>
+                        <span class="span-surface">{{ 100 - valueSurfaceViab }} %</span>
+                    </div>
+                    <p-slider [(ngModel)]="valueSurfaceViab" [disabled]="isDisabled()"></p-slider>
+                </div>
+                <span class="span-ponderation"><i>Population</i></span>
+            </div>
+        </div>
+
+        <div style="text-align: center;" class="padding-top">
+            <button pButton type="button" label="Calcul de la ventilation" class="p-button-rounded" [ngClass]="(ventilationNotChanged() || !verifValideVentilation() || isDisabled()) && isStepStatePassed(EtapeScenario.HYPOTHESE_VENTILATION_SCENARIO) ? 'p-button-secondary' : 'p-button-success'"
+             [disabled]="(ventilationNotChanged() || !verifValideVentilation() || isDisabled()) && isStepStatePassed(EtapeScenario.HYPOTHESE_VENTILATION_SCENARIO)" name="calculVentilation" (click)="calculVentilation()"></button>
+        </div>
+    </p-accordionTab>
+    <p-accordionTab header="Hypothèse de projection" [ngClass]="isStepStatePassedOrActive(EtapeScenario.HYPOTHESE_PROJECTION_SCENARIO)"
+        [disabled]="isStepDisabled(EtapeScenario.HYPOTHESE_PROJECTION_SCENARIO)">
+        <div class="p-fluid p-grid p-formgrid">
+            <p style="font-weight: 500;">Part des matériaux recyclés dans le volume total des materiaux</p>
+        </div>
+        <div class="div-projection-materiaux">
+            <p-table [value]="zoneProductionDetails" [responsive]="true" class="table-projection-materiaux" tableStyleClass="table-border-comp">
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th rowspan="2" class="th-nom-zone">Zones</th>
+                        <th colspan="2" class="projection-materiaux-header">Année de référence</th>
+                        <th rowspan="2" class="th-class-echeance">Échéance</th>
+                    </tr>
+                    <tr>
+                        <th class="projection-materiaux-header">ton.</th>
+                        <th class="projection-materiaux-header">%</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-zoneProductionDetail>
+                    <tr>
+                        <td class="td-nom-zone">{{zoneProductionDetail.name}}</td>
+                        <td class="td-class">{{zoneProductionDetail.tons}} kt</td>
+                        <td class="td-class">{{zoneProductionDetail.pourcentage1}} %</td>
+                        <td class="td-class-echeance">
+                            <div class="input-container">
+                                <input pInputText [(ngModel)]="zoneProductionDetail.pourcentage2" (keydown)="numberOnlyEvent($event, zoneProductionDetail)" [min]="0" [max]="99" maxlength="2" pattern="[0-9]*"
+                                class="input-add-echenace" [ngClass]="{'input-error': zoneProductionDetail.pourcentage2  === undefined}" [disabled]="isDisabled()"/>
+                                <span class="percent-symbol">%</span>
+                              </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <div style="text-align: center;" class="padding-top">
+            <button pButton type="button" label="Calcul de la projection" class="p-button-rounded" [ngClass]="(projectionNotChanged() || !areAllFieldsFilled() || isDisabled()) && isStepStatePassed(EtapeScenario.HYPOTHESE_PROJECTION_SCENARIO) ? 'p-button-secondary' : 'p-button-success'"
+                    name="calculProjection" (click)="calculProjection()" [disabled]="(projectionNotChanged() || !areAllFieldsFilled() || isDisabled()) && isStepStatePassed(EtapeScenario.HYPOTHESE_PROJECTION_SCENARIO)"></button>
+        </div>
+        <p-messages *ngIf="messageInformationImport" [(value)]="messageInformationImport" [escape]="false"></p-messages>
+
+    </p-accordionTab>
+</p-accordion>

@@ -1,0 +1,109 @@
+:host ::ng-deep {
+    .p-accordion-tab:not(.p-accordion-tab-active) {
+      .p-toggleable-content {
+        height: 0;
+        overflow: hidden;
+      }
+    }
+  
+    .p-accordion-tab.p-accordion-tab-active {
+      .p-toggleable-content {
+        height: auto !important;
+        //overflow: auto !important;
+      }
+    }
+
+    .width-td-5 {
+      width: 5rem;
+    }
+
+    .icon-pointer {
+      cursor: pointer;
+    }
+
+    .icon-green {
+      color : limegreen;
+    }
+
+    .nom-proprietaire-etude {
+      font-size:0.75rem;
+    }
+  
+    .sidebar-tab {
+      position: relative;
+      height: 100%;
+      z-index: 2;
+    }
+  
+    .p-sidebar-left {
+      position: relative;
+      width: 26rem;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+  
+    .p-sidebar-position{
+      position: absolute !important;
+      height: 100% !important;
+    }
+  
+    .p-sidebar-content {
+      height: 100%;
+    }
+  
+    .p-sidebar-header {
+      display: none;
+    }
+  
+    .p-sidebar-header-custom {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--primary-500);
+      color: var(--primary-color-text);
+    }
+  
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-close,
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-icon {
+      width: 2rem;
+      height: 2rem;
+      color: var(--primary-color-text);
+      border: 0 none;
+      background: transparent;
+      border-radius: 50%;
+      transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+  
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-close:enabled:hover,
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-icon:enabled:hover {
+      color: #343a40;
+      border-color: transparent;
+      background: #e9ecef;
+    }
+  
+    .p-sidebar-content {
+      padding: 0 !important;
+      height: 100%;
+    }
+  
+  
+    h1 {
+      color: var(--couleur-principale);
+    }
+  
+    p {
+      color: var(--couleur-secondaire);
+    }
+  
+    body {
+      background-color: var(--couleur-fond);
+    }
+
+    .input-annee {
+      width: 5rem !important;
+    }
+}
+  

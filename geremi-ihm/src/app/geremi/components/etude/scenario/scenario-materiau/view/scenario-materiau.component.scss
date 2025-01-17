@@ -1,0 +1,91 @@
+:host ::ng-deep {
+    .div-autres-materiaux {
+      padding: 0rem;
+    }
+    .table-autres-materiaux-border {
+      padding-top: 6px;
+      background-color: white;
+      background-image: none;
+    }
+    .table-border-comp {
+      border:1px solid #e9ecef;
+      border-collapse: separate;
+      border-radius: 5px;
+      border-bottom: none;
+    }
+    .div-flex-spacebetween-align-center {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .td-nom-class {
+      width: 85%;
+      padding: 0.5rem 0.3rem !important;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .td-input-class {
+      text-align: center !important;
+      padding: 0.5rem 0.1rem !important;
+    }
+    .checkbox-cell {
+      border-bottom: 1px solid #e9ecef;
+    }
+
+    .th-header-zone {
+      text-align: center !important;
+      width: 60%;
+      padding: 0.5rem 0.3rem !important;
+      background-color: var(--bluegray-100);
+    }
+    .th-header-ventilation {
+      text-align: center !important;
+      width: 20%;
+      padding: 0.5rem 0.1rem !important;
+      background-color: var(--bluegray-100);
+    }
+    .th-header-tonnage {
+      text-align: center !important;
+      width: 20%;
+      padding: 0.5rem 0.3rem !important;
+      background-color: var(--bluegray-100);
+    }
+
+    .td-dropdown-zone {
+      text-align: center !important;
+      padding: 0.5rem 0.3rem !important;
+    }
+
+    .input-class {
+      text-align: center !important;
+      width: 4rem;
+      padding-left: 0.1rem;
+      padding-right: 0.1rem;
+    }
+    .input-class-tonnage {
+      text-align: center !important;
+      width: 5rem;
+      padding-left: 0.2rem;
+      padding-right: 0.2rem;
+    }
+
+    .dropdown-zone {
+      text-align: left !important;
+      width: 12rem;
+    }
+
+    .p-button-icon-left{
+      display: inline-block;
+    }
+
+    .i-icon {
+      border: 0 none;
+      background: transparent;
+      border-radius: 50%;
+      transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+
+    .button-no-hover:enabled:hover{
+      border-color: transparent;
+      background: white;
+    }
+}

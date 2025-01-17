@@ -1,0 +1,97 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "geremi-front": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "",
+      "sourceRoot": "geremi-ihm/src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "geremi-ihm/dist/geremi-ihm",
+            "index": "geremi-ihm/src/index.html",
+            "main": "geremi-ihm/src/main.ts",
+            "polyfills": "geremi-ihm/src/polyfills.ts",
+            "tsConfig": "geremi-ihm/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "geremi-ihm/src/favicon.ico",
+              "geremi-ihm/src/assets",
+              "geremi-ihm/src/assets/geremi/images",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/leaflet/dist/images",
+                "output": "leaflet/"
+              }
+            ],
+            "styles": [
+              "geremi-ihm/src/styles.scss",
+              "node_modules/leaflet/dist/leaflet.css",
+              "node_modules/leaflet.markercluster/dist/MarkerCluster.Default.css",
+              "node_modules/leaflet-draw/dist/leaflet.draw.css"
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "geremi-front:build:production"
+            },
+            "development": {
+              "browserTarget": "geremi-front:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "geremi-front:build"
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "geremi-ihm/src/test.ts",
+            "polyfills": "geremi-ihm/src/polyfills.ts",
+            "tsConfig": "geremi-ihm/tsconfig.spec.json",
+            "karmaConfig": "geremi-ihm/karma.conf.js",
+            "codeCoverage": true,
+            "assets": ["geremi-ihm/src/favicon.ico", "geremi-ihm/src/assets"],
+            "styles": ["geremi-ihm/src/styles.scss"],
+            "scripts": []
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "geremi-ihm",
+  "cli": {
+    "analytics": false
+  }
+}

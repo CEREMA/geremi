@@ -1,0 +1,398 @@
+<p-confirmDialog #cd1 [style]="{width: '30rem'}" [baseZIndex]="10000"  key="changeReferentiel" appendTo="body">
+  <ng-template pTemplate="header">
+      <h3>Voulez-vous continuer ?</h3>
+  </ng-template>
+  <ng-template pTemplate="footer">
+      <button type="button" pButton icon="pi pi-times" label="Non" (click)="cd1.reject()"></button>
+      <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd1.accept()"></button>
+  </ng-template>
+</p-confirmDialog>
+
+<p-confirmDialog #cd2 [style]="{width: '30rem'}" [baseZIndex]="10000"  key="resetImport" appendTo="body">
+  <ng-template pTemplate="header">
+      <h3>Voulez-vous continuer ?</h3>
+  </ng-template>
+  <ng-template pTemplate="footer">
+      <button type="button" pButton icon="pi pi-times" label="Non" (click)="cd2.reject()"></button>
+      <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd2.accept()"></button>
+  </ng-template>
+</p-confirmDialog>
+
+<p-confirmDialog #cd3 [style]="{width: '30rem'}" [baseZIndex]="10000"  key="deleteEtude" appendTo="body">
+  <ng-template pTemplate="header">
+      <h3>Voulez-vous continuer ?</h3>
+  </ng-template>
+  <ng-template pTemplate="footer">
+      <button type="button" pButton icon="pi pi-times" label="Non" (click)="cd3.reject()"></button>
+      <button type="button" pButton icon="pi pi-check" label="Oui" (click)="cd3.accept()"></button>
+  </ng-template>
+</p-confirmDialog>
+
+<p-sidebar [(visible)]="visibleAfficherEtudeSideBar" [baseZIndex]="10000" [closeOnEscape]="false">
+
+  <div class="p-sidebar-header-custom">
+    <h5 style="margin-top : 1.5rem;">ÉTUDE</h5>
+
+    <button type="button" pripple class="p-ripple p-element p-sidebar-close p-sidebar-icon p-link" style
+      (click)="closeEtudeSideBar()">
+      <span class="p-sidebar-close-icon pi pi-times"></span>
+      <span class="p-ink" style="height: 26px; width: 26px; top: -2.25px; left: -9.75px;"></span>
+    </button>
+  </div>
+
+  <form>
+    <div>
+      <button class="p-button p-button-creer-etude button-creation-etude" (click)="toggleChangeSideBar('ajout')">
+        <i class="pi pi-plus mr-3"></i>
+        <span>Créer une étude</span>
+      </button>
+    </div>
+    <div *ngIf="etudes && ((etudes.etudesProprietaire && etudes.etudesProprietaire.length >0) || (etudes.etudesMandataireLectureSeule  && etudes.etudesMandataireLectureSeule.length >0) || (etudes.etudesMandataireEcriture && etudes.etudesMandataireEcriture.length >0) || (etudes.etudesImporte  && etudes.etudesImporte.length >0));else pas_d_etude">
+
+      <div *ngIf="etudes && etudes.etudesProprietaire && etudes.etudesProprietaire.length >0">
+        <h5 class="mt-4 ml-4">Mes études</h5>
+        <div class="etude-table">
+          <p-table [value]="etudes.etudesProprietaire">
+            <ng-template pTemplate="body" let-etude>
+              <tr>
+                <!--<td rowspan="2"><img class="picto-territoire" alt="app logo" src="assets/layout/images/LogoCerema.svg" ></td>-->
+                <td class="w-1 rs2" rowspan="2"></td>
+                <td class="w-8 rs-2" rowspan="2">{{etude.nom}}</td>
+                <td [attr.rowspan]="etude.ifPublic ? '2' : '1'" class="w-2">
+                  <i [ngClass]="etude.ifPublic ? 'pi pi-eye icon-pointer' : 'pi pi-pencil icon-pointer'" (click)="editEtude(etude, etudes.etudesProprietaire)" [pTooltip]="etude.ifPublic ? 'Consulter' : 'Modifier'"></i>
+                </td>
+                <td class="p-0 pr-3" rowspan="2">
+                  <i *ngIf="!etude.readOnly && etude.scenarioRetenu" [ngClass]="etude.ifPublic ? 'pi pi-globe icon-pointer green' : 'pi pi-globe icon-pointer'" (click)="publierEtude(etude)" pTooltip="Publier"></i>
+                </td>
+              </tr>
+              <tr>
+                <!--<td class="w-8 pt-2" ><span class="nom-proprietaire-etude" [pTooltip]="etude.proprietaire!.mail">{{etude.proprietaire!.prenom +' '+etude.proprietaire!.nom}}</span></td>-->
+                <td *ngIf="!etude.ifPublic && !etude.ifPublic" class="w-2 pt-2"><i class="pi pi-minus icon-pointer" (click)="removeEtude(etude,etudes.etudesProprietaire)" pTooltip="Supprimer"></i> </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div *ngIf="etudes && ((etudes.etudesMandataireLectureSeule  && etudes.etudesMandataireLectureSeule.length >0) || (etudes.etudesMandataireEcriture && etudes.etudesMandataireEcriture.length >0))">
+        <h5 class="mt-4 ml-4">Études partagées</h5>
+        <div class="etude-table">
+          <p-table [value]="etudes.etudesMandataireEcriture.concat(etudes.etudesMandataireLectureSeule)">
+            <ng-template pTemplate="body" let-etude>
+              <tr>
+                <!--<td rowspan="2"><img class="picto-territoire" alt="app logo" src="assets/layout/images/LogoCerema.svg"></td>-->
+                <td rowspan="2" class="w-1"></td>
+                <td class="w-8 border-none">{{etude.nom}}</td>
+                <td [attr.rowspan]="rowspanTD(etude) ? '1' : '2'" class="w-2">
+                    <i *ngIf="!etude.readOnly && !etude.ifPublic" class="pi pi-pencil icon-pointer" (click)="editEtude(etude, etudes.etudesMandataireEcriture)" pTooltip="Modifier"></i>
+                    <i *ngIf="etude.readOnly || etude.ifPublic" class="pi pi-eye icon-pointer" (click)="editEtude(etude, etudes.etudesMandataireLectureSeule)" pTooltip="Consulter"></i>
+                </td>
+                <td class="p-0 pr-3" rowspan="2">
+                  <i *ngIf="!etude.readOnly && etude.scenarioRetenu" [ngClass]="etude.ifPublic ? 'pi pi-globe icon-pointer green' : 'pi pi-globe icon-pointer'" (click)="publierEtude(etude)" pTooltip="Publier"></i>
+                </td>
+              </tr>
+              <tr>
+                <td class="w-8 pt-2" ><span class="nom-proprietaire-etude" [pTooltip]="etude.proprietaire!.mail">{{etude.proprietaire!.prenom +' '+etude.proprietaire!.nom}}</span></td>
+                <td *ngIf="rowspanTD(etude)" class="w-2 pt-2"> <i class="pi pi-minus icon-pointer" (click)="removeEtude(etude,etudes.etudesMandataireEcriture)" pTooltip="Supprimer"></i> </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+      <div *ngIf="etudes && (etudes.etudesImporte  && etudes.etudesImporte.length >0)">
+        <h5 class="mt-4 ml-4">Études importées</h5>
+        <div class="etude-table">
+          <p-table [value]="etudes.etudesImporte">
+            <ng-template pTemplate="body" let-etude>
+              <tr>
+                <!--<td rowspan="2"><img class="picto-territoire" alt="app logo" src="assets/layout/images/LogoCerema.svg"></td>-->
+                <td rowspan="2" class="w-1"></td>
+                <td class="w-8 border-none">{{etude.nom}}</td>
+                <td class="w-2 pt-2" [attr.rowspan]="!etude.ifPublic ? '1' : '2'">
+                  <i class="pi pi-eye icon-pointer" (click)="editEtude(etude, etudes.etudesImporte)" pTooltip="Consulter"></i>
+                </td>
+                <td class="pl-0 pt-2 pr-3" rowspan="2">
+                  <i *ngIf="!etude.readOnly && etude.scenarioRetenu" [ngClass]="etude.ifPublic ? 'pi pi-globe icon-pointer green' : 'pi pi-globe icon-pointer'" (click)="publierEtude(etude)" pTooltip="Publier"></i>
+                </td>
+              </tr>
+              <tr>
+                <td class="w-8 pt-2"><span class="nom-proprietaire-etude" [pTooltip]="etude.proprietaire!.mail">{{etude.proprietaire!.prenom +' '+etude.proprietaire!.nom}}</span></td>
+                <td *ngIf="!etude.ifPublic" class="w-2 pt-2"><i class="pi pi-minus icon-pointer" (click)="removeEtude(etude,etudes.etudesImporte)" pTooltip="Supprimer"></i></td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+
+    </div>
+    <ng-template #pas_d_etude>Aucune étude en cours</ng-template>
+
+  </form>
+</p-sidebar>
+
+<p-sidebar [(visible)]="visibleAjoutEtudeSideBar" [baseZIndex]="10000" class="p-sidebar-position" [closeOnEscape]="false">
+  <div class="p-sidebar-header-custom">
+    <h5 class="mt-4">{{etude.nom ? etude.nom : "CRÉATION ÉTUDE"}}</h5>
+    <button type="button" pripple class="p-ripple p-element p-sidebar-close p-sidebar-icon p-link" style
+      (click)="closeAjoutEtudeSideBar()">
+      <span class="p-sidebar-close-icon pi pi-times"></span>
+      <span class="p-ink" style="height: 26px; width: 26px; top: -2.25px; left: -9.75px;"></span>
+    </button>
+  </div>
+
+  <div>
+    <p-accordion [(activeIndex)]="activeIndexDonneesEtude" (onOpen)="onOpenDonneesEtude($event)" (onClose)="onCloseDonneesEtude($event)" class="etude-accordion-content">
+      <p-accordionTab header="Données de l'étude" [ngClass]="isEtapeScenario() ? 'statePassed' : 'stateActive'">
+        <div class="warning-message">
+          <i class="pi pi-exclamation-triangle"></i>
+          <span class="message">* Champs obligatoires</span>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+
+    <p-accordion *ngIf="openDonneesEtude" [(activeIndex)]="actualStepIndex" (onOpen)="onOpen($event)">
+      <p-accordionTab header="1 - Généralités"
+        [ngClass]="isStepStatePassedOrActive(Etape.CREATION)" [formGroup]="form1">
+        <div class="p-fluid p-grid p-formgrid">
+          <div class="field">
+            <label for="name">Nom :*</label>
+            <input pInputText id="name" formControlName="name">
+          </div>
+          <div class="field">
+            <label for="description">Description :</label>
+            <input pInputText id="description" formControlName="description">
+          </div>
+          <div class="field">
+            <label for="isEtudeSRC" style="margin-bottom: 0;">Étude SRC</label>
+            <span *ngIf="isDreal" class="custom-checkbox isDreal" style="margin-left: 1rem;">
+                <i class="pi pi-check"></i>
+            </span>
+            <span *ngIf="!isDreal" class="custom-checkbox notDreal" style="margin-left: 1rem;">
+                <i class="pi pi-times"></i>
+            </span>
+        </div>
+          <div class="field">
+             <label for="anneeDeRef" class="field-label">Année de référence :*</label>
+              <p-dropdown [options]="sortedListString(anneeRef)" id="anneeDeRef" (onChange)="handleYearChanged($event.value)" placeholder="Sélectionnez une année" formControlName="anneeDeRef" class="field-dropdown"></p-dropdown>
+          </div>
+         <div class="field">
+             <label for="anneeFinEtu" class="field-label">Année de fin d'étude :*</label>
+            <p-dropdown [options]="sortedListString(anneeFin)" id="anneeFinEtu" (onChange)="onEndDateSelected()" placeholder="Sélectionnez une année" formControlName="anneeFinEtu" class="field-dropdown" ></p-dropdown>
+         </div>
+          <div class="field">
+            <label for="delegation">Délégation :</label>
+            <p-table [value]="delegatedPpl.controls" [responsive]="true" id="delegation">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th colspan="3" class="searchBar">
+                    <p-autoComplete placeholder="exemple@exemple.com" [(ngModel)]="delegateInput"
+                      [ngModelOptions]="{standalone: true}" (onSelect)="addDelegation($event)" [suggestions]="results"
+                      (completeMethod)="search($event)" id="delegation" [disabled]="isLectureSeule() || isEtapeScenario()">
+                      <ng-template let-result pTemplate="item">
+                        {{result.mail}}
+                      </ng-template>
+                    </p-autoComplete>
+                  </th>
+                </tr>
+                <tr>
+                  <th style="width: 95%;">Nom</th>
+                  <th>
+                    <button class="pi pi-pencil icon-pointer i-icon button-no-hover" (click)="selectAll()" pTooltip="Droit modification"
+                            [disabled]="isLectureSeule() || isEtapeScenario()">
+                    </button>
+                  </th>
+                  <th>
+                    <button class="pi pi-trash icon-pointer i-icon button-no-hover" (click)="deleteAllProcurations()" pTooltip="Supprimer tout"
+                            [disabled]="isLectureSeule() || isEtapeScenario()">
+                    </button>
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                <ng-container formArrayName="delegatedPpl">
+                  <tr [formGroupName]="rowIndex">
+                    <td pTooltip="{{ rowData.get('mail').value }}" tooltipPosition="top">{{ rowData.get('nom').value }} {{ rowData.get('prenom').value }}</td>
+                    <td>
+                      <p-checkbox name="isSelected" formControlName="isSelected" [binary]="true" pTooltip="Droit modification"></p-checkbox>
+                    </td>
+                    <td>
+                      <button class="pi pi-minus icon-pointer i-icon button-no-hover" (click)="deleteProcuration(rowData)" pTooltip="Supprimer délégation"
+                            [disabled]="isLectureSeule() || isEtapeScenario()">
+                      </button>
+                    </td>
+                  </tr>
+                </ng-container>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+        <div style="text-align: center">
+          <button pButton class="p-button-rounded "
+            [ngClass]="!(validerEtapeGeneraliteDisable() || isEtapeScenario()) ? 'p-button-success' : 'p-button-secondary'" type="submit"
+            [disabled]="validerEtapeGeneraliteDisable() || isEtapeScenario()" (click)="goStep(Etape.CREATION)">Valider</button>
+        </div>
+      </p-accordionTab>
+
+      <p-accordionTab header="2 - Zonage d'étude" [disabled]="isStepDisabled(Etape.ZONAGE) && !isEtapeScenario()"
+        [ngClass]="isStepStatePassedOrActive(Etape.ZONAGE)">
+        <div class="associer-zonages-style p-fluid p-grid p-formgrid" [formGroup]="form2">
+          <div class="field-radiobutton">
+            <p-radioButton formControlName="referentiel" value="Issudureferentiel" inputId="referentiel1" (onClick)="onChangeReferentiel($event.value)">
+            </p-radioButton>
+            <label for="referentiel1">Issu du référentiel</label>
+          </div>
+          <div class="field-radiobutton">
+            <p-radioButton formControlName="referentiel" value="personnalise" inputId="referentiel2" (onClick)="onChangeReferentiel($event.value)"></p-radioButton>
+            <label for="referentiel2">Personnalisé</label>
+          </div>
+          <p-divider></p-divider>
+          <div *ngIf="referentiel.value === 'personnalise'" formGroupName="personnalise">
+              <p-button label="Télécharger le modèle" icon="pi pi-download" iconPos="right" (onClick)="telechargerZonesGpkg()"></p-button>
+              <div style="margin-top: 1rem">
+              <p-message class="message-import" severity="info" [text]="message1" [escape]=false></p-message>
+              <input type="hidden" formControlName="fileSelected" id="fileSelected" />
+            </div>
+          </div>
+          <div class="field">
+            <label for="nomTer">Nom du territoire : *</label>
+            <input pInputText formControlName="nomTer" id="nomTer">
+          </div>
+          <div class="field">
+            <label for="description2">Description :</label>
+            <input pInputText formControlName="description" id="description2">
+          </div>
+          <div *ngIf="referentiel.value === 'Issudureferentiel'" formGroupName="issudureferentiel">
+            <div style="padding-bottom: 1rem;">
+              <label for="territoire">Type de Territoire : *</label>
+              <p-dropdown [options]="territoires" placeholder="Choisir type de territoire" formControlName="territoires"
+                optionLabel="value" (onChange)="onChangeTerritoire($event.value)"></p-dropdown>
+            </div>
+            <div style="padding-bottom: 1rem;">
+              <label>Territoire : </label>
+              <textarea rows="5" cols="40" pInputTextarea [disabled]="true" [value]="detailTerritoires" placeholder="Sélectionnez votre territoire sur la carte..."></textarea>
+            </div>
+            <div style="padding-bottom: 1rem;">
+              <label>Sélection zonage : *</label>
+              <p-dropdown [options]="zonages" formControlName="zonages" placeholder="Choisir zonage" optionLabel="value"
+                (onChange)="toggleLayerZonage($event.value)"></p-dropdown>
+            </div>
+          </div>
+          <div *ngIf="referentiel.value === 'personnalise'" formGroupName="personnalise">
+
+            <p-message *ngIf="succesMessage" severity="info" [text]="succesMessage"></p-message>
+            <div style="padding: 1rem 1rem; display: inline;">
+              <p-fileUpload #fileUploadZonage mode="basic" accept=".cpg, .dbf, .prj, .shp, .shx, .gpkg, .zip"
+                name="myFiles[]" [multiple]='true' [showUploadButton]="false"
+                [showCancelButton]="false" [auto]="true" [customUpload]="true" (uploadHandler)="confirmImport($event, fileUploadZonage)" (onSelect)="validateInputFiles($event, fileUploadZonage)"
+                chooseLabel="Importer *" pTooltip="{{ message2 }}" tooltipPosition="top" [escape]="false" [tooltipOptions]="tooltipOptionsMessage" [fitContent]="false"
+                [disabled]="boutonImportDisable || isStepStatePassed(Etape.POPULATION) || isLectureSeule()">
+              </p-fileUpload>
+            </div>
+            <p-messages [(value)]="messageInformationImport" key="informationImport" [escape]="false"></p-messages>
+            <p-messages [(value)]="messageErreurImport" [escape]="false"></p-messages>
+          </div>
+        </div>
+        <div style="text-align: center">
+          <button pButton class="p-button-rounded"
+            [ngClass]="!validerEtapeZonageDisable() ? 'p-button-success' : 'p-button-secondary'" type="submit"
+            [disabled]="validerEtapeZonageDisable() || isEtapeScenario() || isLectureSeule()" (click)="goStep(Etape.ZONAGE)">Valider</button>
+        </div>
+      </p-accordionTab>
+
+      <p-accordionTab header="3 - Projection démographique" [disabled]="isStepDisabled(Etape.POPULATION) && !isEtapeScenario()"
+        [ngClass]="isStepStatePassedOrActive(Etape.POPULATION)">
+        <div class="p-fluid">
+          <div class="field">
+            <p-button label="Télécharger le modèle" icon="pi pi-download" iconPos="right" (onClick)="telechargerODS()"></p-button>
+          </div>
+          <div class="field">
+            <p-message *ngIf="errorMessage" severity="error" [text]="errorMessage"></p-message>
+            <p-message *ngIf="succesMessage" severity="info" [text]="succesMessage"></p-message>
+            <p-fileUpload #fileUploadProjection name="uploadFile" (onSelect)="confirmProjection($event, fileUploadProjection)" chooseLabel="Importer *"
+              mode="basic" [auto]="true" [maxFileSize]='10000000' [disabled]="boutonImportDisable"
+              pTooltip="{{ messageTooltipBouton }}" tooltipPosition="top" [tooltipOptions]="tooltipOptionsMessage" [disabled]="isEtapeScenario() || isLectureSeule()">
+              <p-button icon="pi pi-upload" label="Importer"></p-button>
+            </p-fileUpload>
+          </div>
+        </div>
+        <div style="text-align: center">
+          <button pButton class="p-button-rounded " [ngClass]="boutonValideDisable || isEtapeScenario() || isLectureSeule() ? 'p-button-secondary' : 'p-button-success'" type="submit"
+          [disabled]="boutonValideDisable || isEtapeScenario() || isLectureSeule()" (click)="goStep(Etape.POPULATION)">Valider</button>
+        </div>
+      </p-accordionTab>
+
+      <p-accordionTab header="4 - Contraintes environnementales" [disabled]="isStepDisabled(Etape.CONTRAINTES) && !isEtapeScenario()"
+        [ngClass]="isStepStatePassedOrActive(Etape.CONTRAINTES)">
+
+        <contrainte-env [actualStep]="getEtapeFromIndex(this.actualStepIndex)" [etude]="etude" (actualStepEvent)="updateActualStep($event)">
+        </contrainte-env>
+
+        <div style="text-align: center;">
+          <button pButton type="button" label="Valider" class="p-button-rounded"
+                  [ngClass]="{'p-button-secondary': disableStep(Etape.CONTRAINTES), 'p-button-success': !disableStep(Etape.CONTRAINTES)}"
+                  [disabled]="disableStep(Etape.CONTRAINTES)"
+                  name="valider" (click)="goStep(Etape.CONTRAINTES)"></button>
+        </div>
+
+      </p-accordionTab>
+
+      <p-accordionTab header="5 - Chantiers d'envergure" [disabled]="isStepDisabled(Etape.CHANTIERS) && !isEtapeScenario()"
+        [ngClass]="isStepStatePassedOrActive(Etape.CHANTIERS)">
+
+        <chantiers-env [actualStep]="getEtapeFromIndex(this.actualStepIndex)" [etude]="etude" (actualStepEvent)="updateActualStep($event)">
+        </chantiers-env>
+
+        <div style="text-align: center;">
+          <button pButton type="button" label="Valider" class="p-button-rounded"
+                  [ngClass]="{'p-button-secondary': disableStep(Etape.CHANTIERS), 'p-button-success': !disableStep(Etape.CHANTIERS)}"
+                  [disabled]="disableStep(Etape.CHANTIERS)"
+                  name="valider" (click)="goStep(Etape.CHANTIERS)"></button>
+        </div>
+      </p-accordionTab>
+
+      <p-accordionTab header="6 - Installations de stockage" [disabled]="isStepDisabled(Etape.INSTALLATIONS) && !isEtapeScenario()"
+        [ngClass]="isStepStatePassedOrActive(Etape.INSTALLATIONS)">
+
+        <installation-stockage [actualStep]="getEtapeFromIndex(this.actualStepIndex)" [etude]="etude" (actualStepEvent)="updateActualStep($event)">
+        </installation-stockage>
+
+        <div style="text-align: center;">
+          <button pButton type="button" label="Valider" class="p-button-rounded"
+                  [ngClass]="{'p-button-secondary': disableStep(Etape.INSTALLATIONS), 'p-button-success': !disableStep(Etape.INSTALLATIONS)}"
+                  [disabled]="disableStep(Etape.INSTALLATIONS)"
+                  name="valider" (click)="goStep(Etape.INSTALLATIONS)"></button>
+        </div>
+      </p-accordionTab>
+
+      <p-accordionTab header="7 - Autres matériaux" [disabled]="isStepDisabled(Etape.MATERIAUX) && !isEtapeScenario()"
+        [ngClass]="isStepStatePassedOrActive(Etape.MATERIAUX)">
+
+        <autres-materiaux [actualStep]="getEtapeFromIndex(this.actualStepIndex)" [etude]="etude" (actualStepEvent)="updateActualStep($event)">
+        </autres-materiaux>
+
+        <div style="text-align: center; padding-top: 1rem;">
+          <button pButton type="button" label="Valider" class="p-button-rounded"
+                  [ngClass]="!disableStep(Etape.MATERIAUX) ? 'p-button-success' : 'p-button-secondary'"
+                  [disabled]="disableStep(Etape.MATERIAUX)"
+                  name="valider" (click)="goStep(Etape.MATERIAUX)"></button>
+        </div>
+      </p-accordionTab>
+    </p-accordion>
+
+    <scenario *ngIf="isEtapeScenario()" [etude]="etude" [anneeRef]="selectedYear">
+    </scenario>
+
+  </div>
+</p-sidebar>
+
+<app-legend-container
+  [ngClassCondition]="{'sidebar-open': visibleAfficherEtudeSideBar, 'second-sidebar-open': visibleAssocierZonagesEtudeSideBar}"
+  [selectedYear]="selectedYear" [selectedYearMax]="anneeFinEtuValue" [selectedYearMin]="anneeDeRefValue" (yearChanged)="handleYearChanged($event)">
+</app-legend-container>
+
+<app-carto-config-etude class="sidebar-tab" (isCollapseChange)="onCollapseChange($event)" [boutonVisible]="visibleAfficherEtudeSideBar"></app-carto-config-etude>
+
+<button *ngIf="!visibleAfficherEtudeSideBar" class="layout-config-map-button" type="button"
+  (click)="openEtudeSideBar()">
+  <i class="pi pi-bars" style="font-size: 2rem;"></i>
+</button>

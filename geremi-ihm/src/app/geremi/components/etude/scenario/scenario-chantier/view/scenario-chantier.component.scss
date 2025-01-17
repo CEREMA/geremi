@@ -1,0 +1,29 @@
+:host ::ng-deep {
+    .div-autres-chantiers {
+      padding: 0rem;
+    }
+    .table-autres-chantiers-border {
+      padding-top: 6px;
+      background-color: white;
+      background-image: none;
+    }
+    .table-border-comp {
+      border:1px solid #e9ecef;
+      border-collapse: separate;
+      border-radius: 5px;
+      border-bottom: none;
+    }
+    .div-flex-spacebetween-align-center {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .td-nom-class {
+      width: 85%;
+      padding: 0.5rem 0.3rem !important;
+      border-bottom: 1px solid #e9ecef;
+    }
+    .checkbox-cell {
+      border-bottom: 1px solid #e9ecef;
+    }
+}

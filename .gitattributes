@@ -1,0 +1,8 @@
+.gitlab-ci.yml          text eol=lf
+.prettierrc.json        text eol=lf
+angular.json            text eol=lf
+package.json            text eol=lf
+package-lock.json       text eol=lf
+docker-compose.yml      text eol=lf
+docker-compose-atos.yml text eol=lf
+*.md                    text eol=lf

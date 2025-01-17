@@ -1,0 +1,73 @@
+<p-sidebar [(visible)]="visiblePanneauLateral" [baseZIndex]="10000" position="right" [showCloseIcon]="false" [closeOnEscape]="false">
+
+    <div class="p-sidebar-header-custom">
+        <button type="button" pripple class="p-ripple p-element p-sidebar-icon p-link" style (click)="focusOnMarker()" >
+            <span class="pi pi-map-marker"></span>
+            <span class="p-ink" style="height: 26px; width: 26px; top: -2.25px; left: -9.75px;"></span>
+        </button>
+
+        <h5 style="text-align: center;" [innerHtml]="(feature != undefined) && (feature.properties!['nom_etablissement'] != null) ? feature!.properties!['nom_etablissement'] : 'Informations Carrière'"></h5>
+
+        <button type="button" pripple class="p-ripple p-element p-sidebar-close p-sidebar-icon p-link" style (click)="closePanneauLateral()" >
+            <span class="p-sidebar-close-icon pi pi-times"></span>
+            <span class="p-ink" style="height: 26px; width: 26px; top: -2.25px; left: -9.75px;"></span>
+        </button>
+    </div>
+
+    <div *ngIf="feature != undefined" #informationsCarriere>
+        <div>
+            <ng-template ngFor let-item [ngForOf]="detailPrincipal">
+              <ng-template ngFor let-itemli [ngForOf]="computePropertyValue(feature.properties, item)">
+                <div class="li-principal-properties">
+                  <div class="li-custom-container">
+                    <li class="li-custom-properties" *ngIf="itemli" [innerHtml]="detailConfig![item]!['label'] + ' ' + itemli"></li>
+                    <span class="tooltiptext" [innerHtml]="itemli" *ngIf="itemli.toString().trim().length>0"></span>
+                  </div>
+                </div>
+              </ng-template>
+            </ng-template>
+        </div>
+        <p-accordion (click)="forceRerender()">
+
+            <p-accordionTab header="Activité" *ngIf="displayAcordeonTab(feature.properties,detailActivite)">
+                <ng-template ngFor let-item [ngForOf]="detailActivite">
+                  <ng-template ngFor let-itemli [ngForOf]="computePropertyValue(feature.properties, item)">
+                    <div class="li-custom-container">
+                      <li class="li-custom-properties" *ngIf="itemli" [innerHtml]="detailConfig![item]!['label'] + ' ' + itemli"></li>
+                      <span class="tooltiptext" [innerHtml]="itemli" *ngIf="itemli.toString().trim().length>0"></span>
+                    </div>
+                  </ng-template>
+                </ng-template>
+            </p-accordionTab>
+
+            <p-accordionTab header="Destination" *ngIf="displayAcordeonTab(feature.properties!['destinations'],detailDestination)">
+                <ng-template ngFor let-item [ngForOf]="detailDestination">
+                  <div class="li-principal-properties" *ngIf="computePropertyValue(feature.properties!['destinations'], item) != null" >
+                    <span><b>{{detailConfig![item]!['label']}}</b></span>
+                    <ng-template ngFor let-itemli [ngForOf]="computePropertyValue(feature.properties!['destinations'], item)">
+                      <div class="li-custom-container">
+                        <li class="li-custom-properties aligned" *ngIf="itemli" [innerHtml]="itemli"></li>
+                        <span class="tooltiptext" [innerHtml]="itemli" *ngIf="itemli.toString().trim().length>0"></span>
+                      </div>
+                    </ng-template>
+                  </div>
+                </ng-template>
+            </p-accordionTab>
+
+          <p-accordionTab header="Traitement des déchets" *ngIf="displayAcordeonTab(feature.properties!['traitement_dechet'],detailTraitementDechet)">
+            <ng-template ngFor let-item [ngForOf]="detailTraitementDechet">
+              <div class="li-principal-properties" *ngIf="computePropertyValue(feature.properties!['traitement_dechet'], item) != null" >
+                <span><b>{{detailConfig![item]!['label']}}</b></span>
+                <ng-template ngFor let-itemli [ngForOf]="computePropertyValue(feature.properties!['traitement_dechet'], item)">
+                  <div class="li-custom-container">
+                    <li class="li-custom-properties aligned" *ngIf="itemli" [innerHtml]="itemli"></li>
+                    <span class="tooltiptext" [innerHtml]="itemli" *ngIf="itemli.toString().trim().length>0"></span>
+                  </div>
+                </ng-template>
+              </div>
+            </ng-template>
+          </p-accordionTab>
+        </p-accordion>
+    </div>
+
+</p-sidebar>

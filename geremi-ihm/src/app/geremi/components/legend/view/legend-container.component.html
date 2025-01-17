@@ -1,0 +1,115 @@
+<div class="legend-container" [ngClass]="ngClassCondition">
+    <div class="legend-label full-width">
+        <label for="minmax-buttons" class="label-style">Données de l'année :</label>
+    </div>
+    <div class="legend-dropdown full-width">
+        <p-inputNumber inputStyleClass="input-annee" [(ngModel)]="selectedYear" [showButtons]="true"
+            inputId="minmax-buttons" (onInput)="onLegendChange($event)" [min]="selectedYearMin" [max]="selectedYearMax"
+            decimalSeparator="" thousandSeparator="" mode="decimal" [disabled]="isDisabled()">
+        </p-inputNumber>
+    </div>
+    <p-accordion (onOpen)="onOpenAccordionLegende($event)" (onClose)="onCloseAccordionLegende($event)">
+        <p-accordionTab header="Légende" class="legendTitle">
+
+        </p-accordionTab>
+    </p-accordion>
+
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="Fond de plan BRGM">
+            <ul class="content-padding">
+                <li><a class="a-class" href="https://www.geoportail.gouv.fr/depot/layers/GEOLOGY.GEOLOGY/legendes/GEOLOGY.GEOLOGY-legend.pdf" target="_blank">
+                    Afficher la légende de la couche<br>
+                    "Cartes géologiques" en PDF</a>
+                </li>
+            </ul>
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="Établissement">
+            <ul class="content-padding">
+                <li class="menu-title">Origine de la production:</li>
+                <li>
+                    <img src="/assets/layout/images/mat.svg" alt="Production de granulats naturels">
+                    Production de granulats naturels
+                </li>
+                <li>
+                    <img src="/assets/layout/images/matnr.svg" alt="Production de granulats naturels et recyclés">
+                    Production de granulats naturels et recyclés
+                </li>
+                <li>
+                    <img src="/assets/layout/images/matrecy.svg" alt="Traitement de déchets du BTP">
+                    Traitement de déchets du BTP
+                </li>
+            </ul>
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="SRC">
+            <ul class="content-padding">
+                <li class="menu-title">Ratio production / besoin :</li>
+                <li>
+                    <img src="/assets/layout/images/carrerouge.svg" alt="Inférieur à 100">
+                    < 100 % </li>
+                <li>
+                    <img src="/assets/layout/images/carreorange.svg" alt="Entre 100 et 120">
+                    100 % < ... < 120 % </li>
+                <li>
+                    <img src="/assets/layout/images/carrevert.svg" alt="Suppérieur à 120">
+                    > 120 %
+                </li>
+            </ul>
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="Parcelle cadastrale">
+            <img src="https://www.geoportail.gouv.fr/depot/layers/CADASTRALPARCELS.PARCELLAIRE_EXPRESS/legendes/CADASTRALPARCELS.PARCELLAIRE_EXPRESS-legend.png" alt="Légende Parcelle Cadastral" style="width: 100%">
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="Périmètre de protection de réserve naturelle">
+            <img src="https://www.geoportail.gouv.fr/depot/layers/PROTECTEDAREAS.MNHN.RN.PERIMETER/legendes/PROTECTEDAREAS.MNHN.RN.PERIMETER-legend.png" alt="Légende de la couche : Périmètres de protection de réserves naturelles" style="width: 100%">
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="Réseau ferroviaire">
+            <img src="https://www.geoportail.gouv.fr/depot/layers/TRANSPORTNETWORKS.RAILWAYS/legendes/TRANSPORTNETWORKS.RAILWAYS-legend.png" style="width: 100%">
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="Réseau hydrographique">
+            <img src="https://www.geoportail.gouv.fr/depot/layers/HYDROGRAPHY.HYDROGRAPHY/legendes/HYDROGRAPHY.HYDROGRAPHY-legend.png" style="width: 100%">
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="Réseau routiers">
+            <img src="https://www.geoportail.gouv.fr/depot/layers/TRANSPORTNETWORKS.ROADS/legendes/TRANSPORTNETWORKS.ROADS-legend.png" style="width: 100%">
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="Réserve naturelle nationale">
+            <div style="display: flex; align-items: flex-start; flex-direction: column;">
+                <img src="https://www.geoportail.gouv.fr/depot/layers/PROTECTEDAREAS.RN/legendes/PROTECTEDAREAS.RN-legend.png" alt="Légende de la couche : Réserves naturelles nationales" style="width: 100%">
+                <img src="https://www.geoportail.gouv.fr/depot/layers/PROTECTEDSITES.MNHN.RESERVES-REGIONALES/legendes/PROTECTEDSITES.MNHN.RESERVES-REGIONALES-legend.png" alt="Légende de la couche : Réserves naturelles régionales" style="width: 100%">
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="Site Natura 2000">
+            <div style="display: flex; align-items: flex-start; flex-direction: column;">
+                <img src="https://www.geoportail.gouv.fr/depot/layers/PROTECTEDAREAS.SIC/legendes/PROTECTEDAREAS.SIC-legend.png" alt="Site d'importance communautaire (SIC)" style="width: 100%">
+                <img src="https://www.geoportail.gouv.fr/depot/layers/PROTECTEDAREAS.ZPS/legendes/PROTECTEDAREAS.ZPS-legend.png" alt="Zone de protection spéciale (ZPS)" style="width: 100%">
+            </div>
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="ZNIEFF Type I">
+            <img src="https://www.geoportail.gouv.fr/depot/layers/PROTECTEDAREAS.ZNIEFF1/legendes/PROTECTEDAREAS.ZNIEFF1-legend.png" alt="Légende de la couche : Zones naturelles d'intérêt écologique faunistique et floristique (ZNIEFF) type I" style="width: 100%">
+        </p-accordionTab>
+    </p-accordion>
+    <p-accordion *ngIf="openLegendContainer">
+        <p-accordionTab header="ZNIEFF Type II">
+            <img src="https://www.geoportail.gouv.fr/depot/layers/PROTECTEDAREAS.ZNIEFF2/legendes/PROTECTEDAREAS.ZNIEFF2-legend.png" alt="Légende de la couche : Zones naturelles d'intérêt écologique faunistique et floristique (ZNIEFF) type II" style="width: 100%">
+        </p-accordionTab>
+    </p-accordion>
+
+</div>

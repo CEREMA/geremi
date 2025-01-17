@@ -1,0 +1,128 @@
+<p-dialog header="Modification chantier" [(visible)]="modificationChantierDialog" [modal]="true" [style]="{ width: '25rem' }" [draggable]="false" [resizable]="false">
+
+  <div [formGroup]="formChantier">
+    <div class="p-fluid p-grid p-formgrid">
+      <div class="padding-bot" style="padding-top: 0.5rem;">
+        <label for="nom" class="label-strong-width-max">Nom : </label>
+        <input pInputText id="nom" formControlName="nom">
+      </div>
+      <div class="padding-bot">
+        <label for="description" class="label-strong-width-max">Description : </label>
+        <input pInputText id="description" formControlName="description">
+      </div>
+      <div class="padding-bot">
+        <label for="annee_debut" class="label-strong-width-max">Année début : </label>
+        <input pInputText pKeyFilter="int" id="annee_debut" formControlName="annee_debut" [min]="1900" [max]="2200" class="input-modif-chantier">
+      </div>
+      <div class="padding-bot">
+        <label for="annee_fin" class="label-strong-width-max">Année de fin : </label>
+        <input pInputText pKeyFilter="int" id="annee_fin" formControlName="annee_fin" [min]="1900" [max]="2200" class="input-modif-chantier">
+      </div>
+      <div class="padding-bot">
+        <label for="beton_pref" class="label-strong-width-max">Besoin en béton/préfabriqué (kt) : </label>
+        <input pInputText pKeyFilter="int" id="beton_pref" formControlName="beton_pref" [min]="0" class="input-modif-chantier">
+      </div>
+      <div class="padding-bot">
+        <label for="viab_autre" class="label-strong-width-max">Besoin en viabilité/autre (kt) : </label>
+        <input pInputText pKeyFilter="int" id="viab_autre" formControlName="viab_autre" [min]="0" class="input-modif-chantier">
+      </div>
+      <div class="padding-bot">
+        <label for="ton_tot" class="label-strong-width-max">Total du besoin en matériaux (kt) : </label>
+        <input pInputText pKeyFilter="int" id="ton_tot" formControlName="ton_tot" [min]="0" class="input-modif-chantier">
+      </div>
+    </div>
+  </div>
+  <div class="div-button-modif" >
+    <button type="button" pButton icon="pi pi-times" label="Annuler" class="p-button-outlined" style="margin-right: 1rem;" (click)="annulerModif()"></button>
+    <div [pTooltip]="tooltipValidationModif()" tooltipPosition="top" [tooltipOptions]="tooltipOptionsMessage" [escape]="false">
+      <button type="button" pButton icon="pi pi-check" label="Valider modifications" [disabled]="tooltipValidationModif() !== ''" (click)="validerModif()"></button>
+    </div>
+  </div>
+</p-dialog>
+
+<div class="div-chantier-table">
+    <div class="div-chantier-existant">
+      <label for="chantiersExistants"><b>Chantiers Existants :</b></label>
+      <p-table [value]="chantiersExistants" [responsive]="true" id="chantiersExistants" class="table-chantier-border" tableStyleClass="table-border-comp">
+        <ng-template pTemplate="header">
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="chantiersExistants">
+          <ng-container>
+            <tr>
+              <td [ngClass]="classAffichage(rowData)" [pTooltip]="tooltipChantierOrigine(rowData)" tooltipPosition="top">
+                {{ rowData.nom }} - {{rowData.annee_debut}}/{{rowData.annee_fin}}<br>Besoin total : {{rowData.ton_tot}} kt
+              </td>
+              <td class="td-icon-class">
+                <div class="div-chantier-img">
+                  <button [ngClass]="rowData.afficher ? 'pi pi-eye icon-pointer i-icon button-no-hover' : 'pi pi-eye-slash icon-pointer i-icon button-no-hover'"
+                    (click)="clickEye(rowData)" pTooltip="Afficher">
+                  </button>
+                  <button *ngIf="!ajoutImpossible(rowData)" class="pi pi-arrow-down icon-pointer i-icon button-no-hover" [disabled]="isEtapeScenario() || isLectureSeule()"
+                    (click)="clickArrowDown(rowData)" pTooltip="Ajouter">
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="div-chantier-etude">
+      <label for="chantiersEtude"><b>Chantiers de l'étude :</b></label>
+      <p-table [value]="chantiersEtude" [responsive]="true" id="chantiersEtude" class="table-chantier-border" tableStyleClass="table-border-comp">
+        <ng-template pTemplate="header">
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="chantiersEtude">
+          <ng-container>
+            <tr>
+              <td [ngClass]="classAffichage(rowData)" [pTooltip]="tooltipChantierOrigine(rowData)" tooltipPosition="top">
+                {{ rowData.nom }} - {{rowData.annee_debut}}/{{rowData.annee_fin}}<br>Besoin total : {{rowData.ton_tot}} kt
+              </td>
+              <td class="td-icon-class">
+                <div class="div-chantier-img">
+                  <button [ngClass]="rowData.afficher ? 'pi pi-eye icon-pointer i-icon button-no-hover' : 'pi pi-eye-slash icon-pointer i-icon button-no-hover'"
+                    (click)="clickEye(rowData)" pTooltip="Afficher">
+                  </button>
+                  <button *ngIf="rowData.supprimable; else arrowUp" class="pi pi-trash icon-pointer i-icon button-no-hover" [disabled]="isEtapeScenario() || isLectureSeule()"
+                    (click)="clickSuppr(rowData)" pTooltip="Supprimer">
+                  </button>
+                  <ng-template #arrowUp>
+                    <button class="pi pi-arrow-up icon-pointer i-icon button-no-hover" [disabled]="isEtapeScenario() || isLectureSeule()"
+                      (click)="clickArrowUp(rowData)" pTooltip="Supprimer">
+                    </button>
+                  </ng-template>
+                  <button class="pi pi-pencil icon-pointer i-icon button-no-hover"  [disabled]="isEtapeScenario() || isLectureSeule()"
+                    (click)="clickModification(rowData)" pTooltip="Modifier">
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </ng-container>
+        </ng-template>
+      </p-table>
+      </div>
+
+      <div class="p-fluid">
+        <div class="div-telecharge-modele">
+          <p-button label="Télécharger le modèle" icon="pi pi-download" iconPos="right" (onClick)="telechargerModele()"
+                    pTooltip="{{ messageToolTipDownload }}"
+                    tooltipPosition="top" [tooltipOptions]="tooltipOptionsMessage"
+                    [escape]="false">
+          </p-button>
+        </div>
+
+        <div style="padding: 1rem 1rem; display: inline;">
+          <p-fileUpload #fileuploadform mode="basic" accept=".cpg, .dbf, .prj, .shp, .shx, .gpkg, .zip"
+            name="myFiles[]" [multiple]='true' [showUploadButton]="false"
+            [showCancelButton]="false" [auto]="true" [customUpload]="true"
+            (uploadHandler)="uploadChantierEtude($event, fileuploadform)"
+            (onSelect)="validateInputFiles($event, fileuploadform)"
+            chooseLabel="Importer" pTooltip="{{ messageToolTipBouton }}"
+            tooltipPosition="top" [tooltipOptions]="tooltipOptionsMessage"
+            [escape]="false" [fitContent]="false" [disabled]="isEtapeScenario() || isLectureSeule()">
+          </p-fileUpload>
+        </div>
+        <p-messages [escape]="false" key="chantier"></p-messages>
+        <p-messages [escape]="false"></p-messages>
+      </div>
+    </div>

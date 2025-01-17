@@ -1,0 +1,44 @@
+<div class="div-autres-contraintes">
+    <div class="div-flex-spacebetween-align-center padding-bot">
+        <label for="contraintes"><b>Sélectionnez la ou les contrainte(s) du scénario :</b></label>
+    </div>
+    <p-table [value]="contraintes" [responsive]="true" id="contraintes" class="table-autres-contraintes-border" tableStyleClass="table-border-comp">
+        <ng-template pTemplate="header">
+            <tr>
+                <th colspan="2" class="header-table">Contraintes</th>
+                <th class="header-table">Taux de renouvellement</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-rowData let-rowIndex="contraintes">
+            <ng-container>
+              <tr *ngIf="rowData.nom === 'Hors Contrainte'">
+                  <td colspan="2" class="td-nom-class" style="text-align: center;"><i>Hors Contrainte *</i></td>
+                  <td class="td-input-class">
+                      <p-inputNumber pKeyFilter="int" [min]="0" [max]="100" inputStyleClass="input-contrainte" [disabled]="isDisabled()"
+                          [(ngModel)]="scenario.tx_renouvellement_hc" suffix=" %" (onInput)="onChangeTxHorsContrainte($event)">
+                      </p-inputNumber>
+                  </td>
+              </tr>
+
+              <tr *ngIf="rowData.nom !== 'Hors Contrainte'">
+                <td class="checkbox-cell">
+                    <input type="checkbox" [value]="rowData.id" (change)="onContrainteSelected($event, rowData)" [checked]="isChecked(rowData.id)" [disabled]="isDisabled()">
+                </td>
+                <td class="td-nom-class">
+                  {{rowData.nom}}<br>
+                  Contrainte {{rowData.niveau}}
+                </td>
+                <td class="td-input-class">
+                  <p-inputNumber pKeyFilter="int" [min]="0" [max]="100" inputStyleClass="input-contrainte" [(ngModel)]="rowData.tx_renouvellement_contrainte"
+                      suffix=" %" [disabled]="contrainteNotSelected(rowData) || isDisabled()" (onInput)="onChangeTxContrainte($event, rowData)">
+                  </p-inputNumber>
+                </td>
+              </tr>
+            </ng-container>
+        </ng-template>
+    </p-table>
+</div>
+<div style="text-align: center;" class="padding-top">
+    <button pButton type="button" label="Valider" class="p-button-rounded" [ngClass]="!(!valide || isDisabled() || notChanged()) ? 'p-button-success' : 'p-button-secondary'"
+            [disabled]="!valide || isDisabled() || notChanged()" name="valider" (click)="ajoutContrainteScenario()"></button>
+</div>

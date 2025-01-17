@@ -1,0 +1,2 @@
+org.springframework.boot.diagnostics.FailureAnalyzer=\
+  fr.cerema.dsi.geremi.config.analyzer.JwtConfMalformedAnalyzer

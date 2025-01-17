@@ -1,0 +1,85 @@
+:host ::ng-deep{
+    // Scenario //
+    .scenario-inside-accordion-content .p-accordion .p-accordion-content {
+      padding: 0.5rem !important;
+      border: 0px !important;
+    }
+  
+    .field-flex-column {
+      flex-direction: column;
+    }
+    .field-flex-row {
+      flex-direction: row;
+    }
+  
+    .padding-bot-top{
+      padding-bottom: 1rem;
+      padding-top: 1rem;
+    }
+    .padding-bot{
+      padding-bottom: 1rem;
+    }
+    .padding-top{
+      padding-top: 1rem;
+    }
+  }
+  
+  .warning-message {
+    //width: 360px;
+    height: 36px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: #fffbf5;
+  }
+    
+  .warning-message i.pi-exclamation-triangle {
+    width: 20px;
+    height: 20px;
+    flex-grow: 0;
+    color: #f59e0b;
+  }
+  
+  .warning-message span.message {
+    height: 20px;
+    flex-grow: 1;
+    font-style: italic;
+    font-size: 14px;
+    text-align: left;
+    align-items: center;
+    color: #f59e0b;
+  }
+  
+  // BOUTON
+  .button-creation-scenario {
+    width: 100%;
+    text-align: left;
+    padding: 1rem 1rem;
+    border-width: 0px 0px 1px 0px;
+  }
+  
+  // QUITTER BOUTON
+  .p-button.p-button-quitter-scenario, .p-buttonset.p-button-quitter-scenario > .p-button, .p-splitbutton.p-button-quitter-scenario > .p-button {
+    color: black;
+    background: var(--couleur-fond);
+    border: 1px solid var(--couleur-fond);
+  }
+  
+  .p-button.p-button-quitter-scenario:enabled:hover, .p-buttonset.p-button-quitter-scenario > .p-button:enabled:hover, .p-splitbutton.p-button-quitter-scenario > .p-button:enabled:hover {
+    background: #EFF6FF;
+    color: black;
+    border-color: #EFF6FF;
+  }
+  
+  .p-button.p-button-quitter-scenario:enabled:focus, .p-buttonset.p-button-quitter-scenario > .p-button:enabled:focus, .p-splitbutton.p-button-quitter-scenario > .p-button:enabled:focus {
+    box-shadow: 0 0 0 0.2rem  #EFF6FF;
+  }
+  
+  .p-button.p-button-quitter-scenario:enabled:active, .p-buttonset.p-button-quitter-scenario > .p-button:enabled:active, .p-splitbutton.p-button-quitter-scenario > .p-button:enabled:active {
+    background:  #EFF6FF;
+    color: black;
+    border-color:  #EFF6FF;
+  }

@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>fr.cerema.dsi</groupId>
+		<artifactId>geremi</artifactId>
+		<version>1.0.5-2</version>
+	</parent>
+	<packaging>jar</packaging>
+
+	<artifactId>geremi-presentation</artifactId>
+
+	<!-- Dépendances spécifiques à ce module -->
+	<dependencies>
+
+		<!-- Dépendances avec les autres modules -->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>geremi-transverse</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>geremi-metier</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>geremi-data</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<!-- starter-web : pour lancer un tomcat -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<!-- dépendance spring-security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-resource-server</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-jose</artifactId>
+		</dependency>
+
+    <!--override de la version en dependance transitive qui comporte des alertes de sécurité-->
+    <dependency>
+      <groupId>org.yaml</groupId>
+      <artifactId>snakeyaml</artifactId>
+      <version>2.0</version>
+    </dependency>
+
+    <!--override de la version en dependance transitive qui comporte des alertes de sécurité-->
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+      <version>3.41.2.2</version>
+    </dependency>
+
+		<!-- dépendance librairies JWT -->
+		<!--    <dependency>-->
+		<!--      <groupId>io.jsonwebtoken</groupId>-->
+		<!--      <artifactId>jjwt-impl</artifactId>-->
+		<!--      <version>0.11.5</version>-->
+		<!--    </dependency>-->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<!-- Temporaire : dépendance manquante dans cette librairie...-->
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- and the engine for surefire and failsafe -->
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-engine</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.8</version>
+		</dependency>
+
+
+		<dependency>
+		    <groupId>org.odftoolkit</groupId>
+		    <artifactId>simple-odf</artifactId>
+		    <version>0.9.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi</artifactId>
+		    <version>5.2.0</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.apache.poi</groupId>
+		    <artifactId>poi-ooxml</artifactId>
+		    <version>5.2.0</version>
+		</dependency>
+	</dependencies>
+
+
+	<profiles>
+		<profile>
+			<id>atos</id>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>geremi-ihm</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>3.1.2</version>
+						<executions>
+							<execution>
+								<id>merge</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>${project.groupId}</groupId>
+											<artifactId>geremi-ihm</artifactId>
+											<version>${project.version}</version>
+											<type>jar</type>
+											<overWrite>true</overWrite>
+											<outputDirectory>${project.build.directory}/classes/static</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>prod</id>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>geremi-ihm</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>3.1.2</version>
+						<executions>
+							<execution>
+								<id>merge</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>${project.groupId}</groupId>
+											<artifactId>geremi-ihm</artifactId>
+											<version>${project.version}</version>
+											<type>jar</type>
+											<overWrite>true</overWrite>
+											<outputDirectory>${project.build.directory}/classes/static</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<profile>
+			<id>ci</id>
+			<dependencies>
+				<dependency>
+					<groupId>${project.groupId}</groupId>
+					<artifactId>geremi-ihm</artifactId>
+					<version>${project.version}</version>
+				</dependency>
+			</dependencies>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-dependency-plugin</artifactId>
+						<version>3.1.2</version>
+						<executions>
+							<execution>
+								<id>merge</id>
+								<phase>prepare-package</phase>
+								<goals>
+									<goal>unpack</goal>
+								</goals>
+								<configuration>
+									<artifactItems>
+										<artifactItem>
+											<groupId>${project.groupId}</groupId>
+											<artifactId>geremi-ihm</artifactId>
+											<version>${project.version}</version>
+											<type>jar</type>
+											<overWrite>true</overWrite>
+											<outputDirectory>${project.build.directory}/classes/static</outputDirectory>
+										</artifactItem>
+									</artifactItems>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<build>
+		<finalName>geremi_${project.version}</finalName>
+		<resources>
+			<resource>
+				<directory>${basedir}/src/main/resources-filtered</directory>
+				<filtering>true</filtering>
+			</resource>
+			<resource>
+				<directory>${basedir}/src/main/resources</directory>
+				<filtering>false</filtering>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>3.3.1</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>${maven-failsafe-plugin.version}</version>
+				<configuration>
+					<!-- Due to spring-boot repackage, without adding this property test classes are not found
+               See https://github.com/spring-projects/spring-boot/issues/6254 -->
+					<classesDirectory>${project.build.outputDirectory}</classesDirectory>
+					<!-- Force alphabetical order to have a reproducible build -->
+					<runOrder>alphabetical</runOrder>
+					<includes>
+						<include>**/*IT*</include>
+						<include>**/*IntTest*</include>
+					</includes>
+				</configuration>
+				<executions>
+					<execution>
+						<id>integration-test</id>
+						<goals>
+							<goal>integration-test</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>verify</id>
+						<goals>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.8</version>
+				<executions>
+					<execution>
+						<id>pre-unit-tests</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<!-- Ensures that the code coverage report for unit tests is created after unit tests have been run -->
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>pre-integration-tests</id>
+						<goals>
+							<goal>prepare-agent-integration</goal>
+						</goals>
+					</execution>
+					<!-- Ensures that the code coverage report for integration tests is created after integration tests have been run -->
+					<execution>
+						<id>post-integration-tests</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>report-integration</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>

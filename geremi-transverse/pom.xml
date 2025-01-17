@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>fr.cerema.dsi</groupId>
+    <artifactId>geremi</artifactId>
+    <version>1.0.5-2</version>
+  </parent>
+  <packaging>jar</packaging>
+
+  <artifactId>geremi-transverse</artifactId>
+
+  <!-- Dépendances spécifiques à ce module -->
+  <dependencies>
+
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-shapefile</artifactId>
+      <version>29.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.geotools</groupId>
+      <artifactId>gt-geopkg</artifactId>
+      <version>29.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.locationtech.jts</groupId>
+      <artifactId>jts-core</artifactId>
+      <version>1.18.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-spatial</artifactId>
+      <version>${hibernate.version}</version>
+    </dependency>
+
+  </dependencies>
+
+  <repositories>
+    <repository>
+      <id>central</id>
+      <url>https://repo.maven.apache.org/maven2/</url>
+    </repository>
+    <repository>
+      <id>osgeo-repository</id>
+      <url>https://repo.osgeo.org/repository/release/</url>
+    </repository>
+  </repositories>
+
+</project>

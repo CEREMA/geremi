@@ -1,0 +1,90 @@
+<button *ngIf="!visibleConfigCarto" class="layout-config-map-button" type="button" (click)="openConfigCarto()">
+  <i class="pi pi-bars" style="font-size: 2rem;"></i>
+</button>
+<p-sidebar [(visible)]="visibleConfigCarto" [baseZIndex]="10000" [closeOnEscape]="false">
+
+  <div class="p-sidebar-header-custom">
+    <h5 style="margin-top : 1.5rem;">CARTOGRAPHIE</h5>
+
+    <button type="button" pripple class="p-ripple p-element p-sidebar-close p-sidebar-icon p-link" style (click)="closeConfigCarto()" >
+        <span class="p-sidebar-close-icon pi pi-times"></span>
+        <span class="p-ink" style="height: 26px; width: 26px; top: -2.25px; left: -9.75px;"></span>
+    </button>
+  </div>
+
+  <p-accordion styleClass="config-accordeon">
+    <p-accordionTab header="Fonds de carte">
+      <div class="flex flex-row">
+        <div class="flex flex-column align-content-start flex-wrap m-2 img-border" (click)="toggleBackground('OSM')">
+          <div class="flex align-items-center click justify-content-center">
+            <img
+                src="/assets/geremi/images/osm-background.jpg"
+                alt=""
+                class="img-radius"><br>
+          </div>
+          <div class="flex align-items-center justify-content-center">
+            <b>OSM</b>
+          </div>
+        </div>
+          <div class="flex flex-column align-content-start flex-wrap m-2 img-border" (click)="toggleBackground('IGN')">
+            <div class="flex align-items-center click justify-content-center">
+              <img
+                  src="/assets/geremi/images/ign-background.jpg"
+                  alt=""
+                  class="img-radius"><br>
+            </div>
+            <div class="flex align-items-center justify-content-center">
+              <b>IGN</b>
+            </div>
+          </div>
+      </div>
+      <div class="flex flex-row">
+        <div class="flex flex-column align-content-start flex-wrap m-2 img-border" (click)="toggleBackground('BRGM')">
+          <div class="flex align-items-center click justify-content-center">
+            <img
+              src="/assets/geremi/images/brgm-background.jpg"
+              alt=""
+              class="img-radius">
+          </div>
+          <div class="flex align-items-center justify-content-center">
+            <b>BRGM</b>
+          </div>
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Etablissements">
+      <img src="/assets/layout/images/mat.svg" alt="Production de granulats naturels">&nbsp;<p-checkbox [(ngModel)]="isEtablissementNaturelSelected" label="Production de granulats naturels" [binary]="true" inputId="Naturel" (onChange)="toggleLayer('EtablissementNaturel')" [disabled]="choixEtabDisable()"></p-checkbox><br>
+      <img src="/assets/layout/images/matnr.svg" alt="Production de granulats naturels et recyclés">&nbsp;<p-checkbox [(ngModel)]="isEtablissementNaturelRecycleSelected" label="Production de granulats naturels et recyclés" [binary]="true" inputId="NaturelRecycle" (onChange)="toggleLayer('EtablissementNaturelRecycle')" [disabled]="choixEtabDisable()"></p-checkbox><br>
+      <img src="/assets/layout/images/matrecy.svg" alt="Traitement de déchets du BTP">&nbsp;<p-checkbox [(ngModel)]="isEtablissementRecycleSelected" label="Traitement de déchets du BTP" [binary]="true" inputId="Recycle" (onChange)="toggleLayer('EtablissementRecycle')" [disabled]="choixEtabDisable()"></p-checkbox><br>
+    </p-accordionTab>
+    <p-accordionTab header="Zonages administratifs">
+      <p-checkbox name="activeLayers" [binary]="true" value="region" label="Région" (onChange)="toggleLayer('region')"></p-checkbox><br>
+      <p-checkbox name="activeLayers" [binary]="true" value="departement" label="Département" (onChange)="toggleLayer('departement')"></p-checkbox><br>
+      <p-checkbox name="activeLayers" [binary]="true" [(ngModel)]="bassinvieValue" label="Bassin de vie" [disabled]="activeBassinDeVie" (onChange)="toggleLayer('bassinvie')"></p-checkbox><br>
+      <p-checkbox name="activeLayers" [binary]="true" value="zoneemploi" label="Zone Emploi" (onChange)="toggleLayer('zoneemploi')"></p-checkbox><br>
+      <p-checkbox name="activeLayers" [binary]="true" [(ngModel)]="epciValue" label="EPCI"  [disabled]="activeEpci" (onChange)="toggleLayer('epci')"></p-checkbox><br>
+      <p-checkbox name="activeLayers" [binary]="true" [(ngModel)]="communeValue" label="Commune" [disabled]="activeCommune" (onChange)="toggleLayer('commune')"></p-checkbox><br>
+    </p-accordionTab>
+    <p-accordionTab header="Visualisation d'études publiques">
+      <div *ngFor="let rowData of listeRegion" class="div-list-item">
+        <h6 style="margin-bottom: 0">
+          {{rowData.nom}}
+        </h6>
+        <div *ngFor="let etude of this.listeEtudePublic.get(rowData.id)" class="div-check-box">
+          <p-checkbox  [(ngModel)]="etudeConsulte" [inputId]="etude.id.toString()" [value]="etude" [label]="etude.nom" (onChange)="consulteEtude(etude,rowData.id)"></p-checkbox>
+        </div>
+      </div>
+    </p-accordionTab>
+    <p-accordionTab header="Autres couches">
+      <div *ngFor="let layer of extraLayers">
+        <p-checkbox name="activeExtraLayers" [(ngModel)]="activeExtraLayer" [value]="layer.code" label="{{layer.label}}" (onChange)="toggleExtraLayer(layer.code)"></p-checkbox>
+      </div>
+    </p-accordionTab>
+  </p-accordion>
+</p-sidebar>
+<app-legend-container [ngClassCondition]="{'sidebar-open': visibleConfigCarto}" (yearChanged)="handleYearChanged($event)" [selectedYear]="selectedYear"></app-legend-container>
+
+
+
+
+

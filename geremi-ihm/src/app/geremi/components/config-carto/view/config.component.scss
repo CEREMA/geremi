@@ -1,0 +1,112 @@
+:host ::ng-deep {
+
+  .p-accordion-tab:not(.p-accordion-tab-active) {
+    .p-toggleable-content {
+      height: 0;
+      overflow: hidden;
+    }
+  }
+
+  .p-accordion-tab.p-accordion-tab-active {
+    .p-toggleable-content {
+      height: auto !important;
+      //overflow: auto !important;
+    }
+  }
+
+    .p-sidebar-left{
+        position: relative;
+        width: 25rem;
+    }
+
+    .p-component-overlay {
+        display: none !important;
+    }
+
+    .p-sidebar-header {
+        display: none;
+    }
+
+    .p-sidebar-header-custom {
+        padding-left: 1.25rem;
+        padding-right: 1.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: var(--primary-500);
+        color: var(--primary-color-text);
+    }
+
+    .p-sidebar-content {
+        padding: 0 !important;
+    }
+
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-close,
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-icon {
+        width: 2rem;
+        height: 2rem;
+        color: var(--primary-color-text);
+        border: 0 none;
+        background: transparent;
+        border-radius: 50%;
+        transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-close:enabled:hover,
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-icon:enabled:hover {
+        color: #343a40;
+        border-color: transparent;
+        background: #e9ecef;
+    }
+
+    .p-accordion.config-accordeon .p-accordion-header .p-accordion-header-link {
+        color: var(--text-color);
+        border-radius: 0px !important;
+        background: none;
+    }
+
+    .p-accordion.config-accordeon .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus {
+        box-shadow: none;
+    }
+
+    .p-accordion.config-accordeon .p-accordion-tab {
+        margin-bottom: 0.5px;
+    }
+
+    .p-accordion.config-accordeon .p-accordion-content {
+        border: none;
+        border-radius: 0px;
+        background: #dee2e6;
+    }
+
+    .input-annee {
+      width: 5rem !important;
+    }
+
+    .div-check-box{
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+    }
+
+    .div-list-item{
+        padding-bottom: 0.5rem;
+    }
+}
+
+.img-border {
+    background: white;
+    border-radius: 5px;
+}
+
+.img-radius {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.img-border:hover {
+    box-shadow: 0 0 0 0.2rem var(--primary-500);
+}
+
+.img-border:focus {
+    box-shadow: 0 0 0 0.2rem var(--primary-500);
+}

@@ -1,0 +1,188 @@
+:host ::ng-deep {
+   
+    .sidebar-tab {
+      position: relative;
+      height: 100%;
+      z-index: 2; 
+    }
+  
+    .p-sidebar-left {
+      position: relative;
+      width: 26rem;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+    }
+  
+    .p-sidebar-position{
+      position: absolute !important;
+      height: 100% !important;
+    }
+
+    .p-sidebar-content {
+      padding: 0 !important;
+      height: 100%; 
+    }   
+  
+    .p-sidebar-header {
+      display: none;
+    }
+  
+    .p-sidebar-header-custom {
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--primary-500);
+      color: var(--primary-color-text);
+    }
+  
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-close,
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-icon {
+      width: 2rem;
+      height: 2rem;
+      color: var(--primary-color-text);
+      border: 0 none;
+      background: transparent;
+      border-radius: 50%;
+      transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    }
+  
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-close:enabled:hover,
+    .p-sidebar .p-sidebar-header-custom .p-sidebar-icon:enabled:hover {
+      color: #343a40;
+      border-color: transparent;
+      background: #e9ecef;
+    }
+  
+  
+    
+    h1 {
+      color: var(--couleur-principale);
+    }
+  
+    p {
+      color: var(--couleur-secondaire);
+    }
+  
+    body {
+      background-color: var(--couleur-fond);
+    } 
+
+    .nom-proprietaire-etude {
+      font-size:0.75rem;
+    }
+    
+    .bulle-information .p-inline-message.p-component.p-inline-message-info {
+      background-color: var(--blue-50);
+      color: var(--cyan-500);
+    }
+ 
+  
+    .message-import {
+      background: var(--blue-100) !important;
+      color: var(--blue-600) !important;
+      font-size: 0.9rem !important;
+    }
+  
+    .icon-pointer {
+      cursor: pointer;
+    }
+  
+    .p-fileupload-choose {
+      width: 100% !important;
+    }
+  
+    .p-button-icon-left {
+      display: none;
+    }
+  
+    .input-annee {
+      width: 5rem !important;
+    } 
+
+    .div-telecharge-modele{
+      padding-top: 1rem;
+    }
+    
+  }
+
+  .form {
+    margin: 21px;
+  }
+    
+  
+  .warning-message {
+    //width: 360px;
+    height: 36px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: #fffbf5;
+  }
+  
+  .warning-message i.pi-exclamation-triangle {
+    width: 20px;
+    height: 20px;
+    flex-grow: 0;
+    color: #f59e0b;
+  }
+  
+  .warning-message span.message {
+    height: 20px;
+    flex-grow: 1;
+    font-style: italic;
+    font-size: 14px;
+    text-align: left;
+    align-items: center;
+    color: #f59e0b;
+  }
+  
+  .field-dropdown {
+    float: right;
+    width: 7rem;
+  }
+  
+  .field-label {
+    display: inline-block;
+    width: 11rem;
+  }
+  
+  .custom-checkbox {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 3px;
+    position: relative;
+    vertical-align: middle;
+    text-align: center;
+    line-height: 1.5rem;
+  }
+  
+  .custom-checkbox.isDreal {
+    background-color: green;
+  }
+  
+  .custom-checkbox.notDreal {
+    background-color: red;
+  }
+  
+  .custom-checkbox i {
+    color: white;
+    font-size: 1.5rem;
+  }
+ 
+  
+  
+  ::ng-deep{
+    .p-tooltip.tooltip-import-message{
+      max-width: 100% !important;
+      width: max-content !important;
+      white-space: normal;
+    }
+  }
+  

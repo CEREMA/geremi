@@ -1,0 +1,26 @@
+<div class="div-autres-materiaux">
+  <div class="div-flex-spacebetween-align-center padding-bot">
+      <label for="installationStockages"><b>Sélectionnez la ou les installation(s) du scénario :</b></label>
+  </div>
+  <p-table [value]="installationStockages" [responsive]="true" id="installationStockages" class="table-autres-materiaux-border" tableStyleClass="table-border-comp">
+      <ng-template pTemplate="body" let-rowData let-rowIndex="installationStockages">
+        <ng-container>
+          <tr>
+            <td class="checkbox-cell">
+              <input type="checkbox" [value]="rowData.id" (change)="onInstallationSelected($event, rowData)" [checked]="isChecked(rowData.id)" [disabled]="isDisabled()">
+            </td>
+            <td class="td-nom-class">
+              {{rowData.nomEtab}}<br>
+              {{rowData.anneeDebut}}/{{rowData.anneeFin}}<br>
+              Stockage totale : {{rowData.tonTot}} kt
+            </td>
+          </tr>
+        </ng-container>
+      </ng-template>
+  </p-table>
+</div>
+
+<div style="text-align: center;" class="padding-top">
+    <button pButton type="button" label="Valider" class="p-button-rounded" [ngClass]="((isDisabled() || notChanged())  && isStepStatePassed(EtapeScenario.INSTALLATIONS_SCENARIO)) ? 'p-button-secondary' : 'p-button-success'"
+            name="valider" (click)="ajoutInstallationScenario()" [disabled]="(isDisabled() || notChanged())  && isStepStatePassed(EtapeScenario.INSTALLATIONS_SCENARIO)"></button>
+  </div>

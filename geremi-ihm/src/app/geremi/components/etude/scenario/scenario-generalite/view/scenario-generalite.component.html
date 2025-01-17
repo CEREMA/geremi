@@ -1,0 +1,20 @@
+<div class="" [formGroup]="formControlGeneralite">
+    <div class="p-fluid padding-bot">
+      <label for="nom">Nom : * </label>
+      <input pInputText id="nom" formControlName="nom">
+    </div>
+    <div class="p-fluid padding-bot">
+      <label for="description">Description :</label>
+      <input pInputText id="description" formControlName="description">
+    </div>
+    <div class="">
+        <label for="dynamique" class="label-strong-width-max">Dynamique démographique : * </label>
+        <p-dropdown [options]="listeDynamique" formControlName="dynamique"></p-dropdown>
+    </div>
+</div>
+
+<div style="text-align: center;" class="padding-top">
+  <button pButton type="button" label="Valider"
+  class="p-button-rounded" [ngClass]="!(!formControlGeneralite.valid || isDisabled() || notChanged()) ? 'p-button-success' : 'p-button-secondary'"
+  name="valider" (click)="ajoutScenario()" [disabled]="!formControlGeneralite.valid || isDisabled() || notChanged()"></button>
+</div>

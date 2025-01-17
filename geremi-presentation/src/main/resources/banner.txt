@@ -1,0 +1,3 @@
+${AnsiColor.GREEN}Geremi ${AnsiColor.BLUE}${info.app.version}
+${AnsiColor.CYAN}Gestion des ressources minérales
+${AnsiColor.DEFAULT}

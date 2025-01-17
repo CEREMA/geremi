@@ -1,0 +1,10 @@
+.click {
+    cursor: pointer;
+}
+
+:host ::ng-deep .p-sidebar-left {
+    top: 0;
+    left: 0;
+    width: 26rem;
+    height: 100%;
+}

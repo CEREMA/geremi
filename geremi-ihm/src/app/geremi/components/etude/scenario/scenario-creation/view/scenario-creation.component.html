@@ -1,0 +1,46 @@
+<p-accordion *ngIf="isScenarioEnCours()" class="scenario-inside-accordion-content" [(activeIndex)]="activeIndexScenario" (onOpen)="onOpen($event)">
+    <div>
+      <button class="p-button p-button-quitter-scenario button-creation-scenario" style="justify-content: space-between;" (click)="toggleCloseScenarioEnCours()">
+          <span style="font-weight: bold;">{{scenarioEnCours.nom ? nomScenario(scenarioEnCours) : "Création scénario"}}</span>
+          <i class="pi pi-times mr-3"></i>
+      </button>
+    </div>
+    <div class="warning-message">
+      <i class="pi pi-exclamation-triangle"></i>
+      <span class="message">* Champs obligatoires</span>
+    </div>
+    <p-accordionTab header="Généralités" [ngClass]="isStepStatePassedOrActive(EtapeScenario.CREATION_SCENARIO)">
+      <scenario-generalite [scenario]="scenarioEnCours" [lectureSeule]="isLectureSeule()">
+      </scenario-generalite>
+    </p-accordionTab>
+    <p-accordionTab header="Contraintes environnementales"
+    [ngClass]="isStepStatePassedOrActive(EtapeScenario.CONTRAINTES_SCENARIO)" [disabled]="isStepDisabled(EtapeScenario.CONTRAINTES_SCENARIO)">
+      <scenario-contrainte [scenario]="scenarioEnCours" [lectureSeule]="isLectureSeule()" [scenarioCreationActiveStep]="activeStep" #scenarioContrainte>
+      </scenario-contrainte>
+    </p-accordionTab>
+    <p-accordionTab *ngIf="!isEtapeEtudeVide(Etape.CHANTIERS)" header="Chantiers d'envergure"
+    [ngClass]="isStepStatePassedOrActive(EtapeScenario.CHANTIERS_SCENARIO)" [disabled]="isStepDisabled(EtapeScenario.CHANTIERS_SCENARIO)">
+      <scenario-chantier [scenario]="scenarioEnCours" [lectureSeule]="isLectureSeule()" [scenarioCreationActiveStep]="activeStep">
+      </scenario-chantier>
+    </p-accordionTab>
+    <p-accordionTab *ngIf="!isEtapeEtudeVide(Etape.INSTALLATIONS)" header="Installations de stockage"
+    [ngClass]="isStepStatePassedOrActive(EtapeScenario.INSTALLATIONS_SCENARIO)" [disabled]="isStepDisabled(EtapeScenario.INSTALLATIONS_SCENARIO)">
+      <scenario-installation [scenario]="scenarioEnCours" [lectureSeule]="isLectureSeule()" [scenarioCreationActiveStep]="activeStep">
+      </scenario-installation>
+    </p-accordionTab>
+    <p-accordionTab *ngIf="!isEtapeEtudeVide(Etape.MATERIAUX)" header="Autres matériaux"
+    [ngClass]="isStepStatePassedOrActive(EtapeScenario.MATERIAUX_SCENARIO)" [disabled]="isStepDisabled(EtapeScenario.MATERIAUX_SCENARIO)">
+      <scenario-materiau [scenario]="scenarioEnCours" [listeZoneTerritoire]="listeZoneTerritoire" [lectureSeule]="isLectureSeule()" [scenarioCreationActiveStep]="activeStep">
+      </scenario-materiau>
+    </p-accordionTab>
+
+</p-accordion>
+
+<p-accordion (onOpen)="openEtapeCalculs()" (onClose)="closeEtapeCalculs()" [(activeIndex)]="openAccordeonCalcul">
+  <p-accordionTab header="Calculs du scénario" [disabled]="isStepDisabled(EtapeScenario.HYPOTHESE_VENTILATION_SCENARIO)"
+  [ngClass]="isStepStatePassedOrActiveCalcul()">
+  </p-accordionTab>
+</p-accordion>
+
+<scenario-calcul [scenario]="scenarioEnCours" *ngIf="openCalculScenario" [actualStep]="actualStep" [activeIndexStepCalcul]="activeIndexStepCalcul" [lectureSeule]="isLectureSeule()">
+</scenario-calcul>

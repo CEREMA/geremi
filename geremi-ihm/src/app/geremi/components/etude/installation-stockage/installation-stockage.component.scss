@@ -1,0 +1,100 @@
+:host ::ng-deep {
+  .div-installation-stockage-table {
+    padding: 0rem;
+  }
+
+  .table-installation-stockage-border {
+    padding-top: 6px;
+    background-color: white;
+    background-image: none;
+  }
+
+  .table-border-comp {
+    border: 1px solid #e9ecef;
+    border-collapse: separate;
+    border-radius: 5px;
+  }
+
+  .div-installation-stockage-img {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap;
+  }
+
+  .div-installation-stockage-existante {}
+
+  .div-installation-stockage-etude {
+    padding-top: 1rem;
+  }
+
+  .div-telecharge-modele {
+    padding-top: 1rem;
+  }
+
+  .td-nom-class {
+    width: 85%;
+    padding: 0.5rem 0.3rem !important;
+    border-width: 0 !important;
+  }
+
+  .td-icon-class {
+    padding: 0.5rem 0.3rem !important;
+    border-width: 0 !important;
+  }
+
+  .i-icon {
+    border: 0 none;
+    background: transparent;
+    border-radius: 50%;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+  }
+
+  .button-no-hover:enabled:hover{
+    border-color: transparent;
+    background: white;
+  }
+
+  .icon-spacing-right {
+    padding-right: 1rem;
+  }
+
+
+  .div-button-modif {
+    padding-top: 1rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .padding-bot {
+    padding-bottom: 0.8rem;
+  }
+
+  .label-strong-width-max {
+    font-weight: 600;
+    width: 100%;
+  }
+
+  .input-modif-installation {
+    width: 5rem !important;
+    text-align: center;
+  }
+
+  .icon-button {
+    color: #36f;
+  }
+
+  .icon-button:hover {
+    color: #fff;
+    background-color: #36f;
+  }
+
+  .disabled-arrow {
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .p-fileupload p-messages {
+    display: none;
+  }
+
+}

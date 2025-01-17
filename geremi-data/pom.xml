@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>fr.cerema.dsi</groupId>
+    <artifactId>geremi</artifactId>
+    <version>1.0.5-2</version>
+  </parent>
+  <packaging>jar</packaging>
+
+  <artifactId>geremi-data</artifactId>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.flywaydb</groupId>
+      <artifactId>flyway-core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.flywaydb</groupId>
+        <artifactId>flyway-maven-plugin</artifactId>
+        <version>${flyway.version}</version>
+        <configuration>
+          <skip>false</skip>
+          <configFiles>
+            <configFile>src/main/resources/flyway.properties</configFile>
+          </configFiles>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

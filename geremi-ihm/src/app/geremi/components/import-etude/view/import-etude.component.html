@@ -1,0 +1,133 @@
+<p-sidebar [(visible)]="visibleAfficherImportEtudeSideBar" [baseZIndex]="10000" [closeOnEscape]="false">
+    <div class="p-sidebar-header-custom">
+        <h5 style="margin-top : 1.5rem;">IMPORT D'ÉTUDE</h5>
+        <button type="button" pripple class="p-ripple p-element p-sidebar-close p-sidebar-icon p-link" style
+      (click)="closeImportEtudeSideBar()">
+      <span class="p-sidebar-close-icon pi pi-times"></span>
+      <span class="p-ink" style="height: 26px; width: 26px; top: -2.25px; left: -9.75px;"></span>
+    </button>
+    </div>
+
+    <div class="warning-message">
+        <i class="pi pi-exclamation-triangle"></i>
+        <span class="message">* Champs obligatoires</span>
+    </div>
+    <div [formGroup]="form1" class="form">
+        <div class="p-fluid p-grid p-formgrid">
+            <div class="field">
+              <label for="name">Nom de l'étude :*</label>
+              <input pInputText id="name" formControlName="name">
+            </div>
+            <div class="field">
+              <label for="description">Description de l'étude :</label>
+              <input pInputText id="description" formControlName="description">
+            </div>
+            <div class="field">
+              <p-checkbox formControlName="isSRC" label="Étude SRC" [binary]="true" inputId="isSRC"></p-checkbox>
+          </div>
+            <div class="field">
+               <label for="anneeDeRef" class="field-label">Année de référence :*</label>
+                <p-dropdown [options]="sortedListString(anneeRef)" id="anneeDeRef" (onChange)="handleYearChanged($event.value)" placeholder="Sélectionnez une année" formControlName="anneeDeRef" class="field-dropdown"></p-dropdown>
+            </div>
+           <div class="field">
+               <label for="anneeFinEtu" class="field-label">Année de fin d'étude :*</label>
+              <p-dropdown [options]="sortedListString(anneeFin)" id="anneeFinEtu" (onChange)="onEndDateSelected()" placeholder="Sélectionnez une année" formControlName="anneeFinEtu" class="field-dropdown" ></p-dropdown>
+           </div>
+            <div class="field">
+              <label for="delegation">Délégation :</label>
+              <p-table [value]="delegatedPpl.controls" [responsive]="true" id="delegation">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th colspan="3" class="searchBar">
+                      <p-autoComplete placeholder="exemple@exemple.com" [(ngModel)]="delegateInput"
+                        [ngModelOptions]="{standalone: true}" (onSelect)="addDelegation($event)" [suggestions]="results"
+                        (completeMethod)="search($event)" id="delegation">
+                        <ng-template let-result pTemplate="item">
+                          {{result.mail}}
+                        </ng-template>
+                      </p-autoComplete>
+                    </th>
+                  </tr>
+                  <tr>
+                    <th style="width: 95%;">Nom</th>
+                    <th><i class="pi pi-pencil icon-pointer" (click)="selectAll()"></i></th>
+                    <th><i class="pi pi-trash icon-pointer" (click)="deleteAllProcurations()"></i></th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                  <ng-container formArrayName="delegatedPpl">
+                    <tr [formGroupName]="rowIndex">
+                      <td pTooltip="{{ rowData.get('mail').value }}" tooltipPosition="top">{{ rowData.get('nom').value }} {{ rowData.get('prenom').value }}</td>
+                      <td>
+                        <p-checkbox name="isSelected" formControlName="isSelected" [binary]="true"></p-checkbox>
+                      </td>
+                      <td>
+                        <i class="pi pi-minus icon-pointer" (click)="deleteProcuration(rowData)"></i>
+                      </td>
+                    </tr>
+                  </ng-container>
+                </ng-template>
+              </p-table>
+            </div>
+
+            <div class="field">
+              <label for="nomterritoire">Nom du territoire :*</label>
+              <input pInputText id="nomterritoire" formControlName="nomterritoire">
+            </div>
+
+            <div class="field">
+              <label for="descterritoire">Description du territoire:</label>
+              <input pInputText id="descterritoire" formControlName="descterritoire">
+            </div>
+
+            <div class="field">
+              <label for="nomscenario">Nom du scénario :*</label>
+              <input pInputText id="nomscenario" formControlName="nomscenario">
+            </div>
+
+            <div class="field">
+              <label for="descscenario">Description du scénario:</label>
+              <input pInputText id="descscenario" formControlName="descscenario">
+            </div>
+
+            <div class="field">
+              <label for="proprietaire">Propriétaire :*</label>
+              <p-autoComplete id="proprietaire" formControlName="proprietaire"
+                              placeholder="Entrez le nom du propriétaire"
+                              [(ngModel)]="proprietaireInput" [suggestions]="proprietaireResults"
+                              [forceSelection]="true"
+                              (completeMethod)="searchProprietaire($event)"  (onSelect)="onSelectUser($event)">
+                  <ng-template let-prop pTemplate="item">
+                      {{prop.mail}}
+                  </ng-template>
+              </p-autoComplete>
+          </div>
+
+          </div>
+          <div class="p-fluid">
+            <div class="div-telecharge-modele">
+              <p-button label="Télécharger le modèle" icon="pi pi-download" iconPos="right" (onClick)="telechargerModele()"
+                        pTooltip="{{ messageToolTipDownload }}"
+                        tooltipPosition="top" [tooltipOptions]="tooltipOptionsMessage"
+                        [escape]="false">
+              </p-button>
+            </div>
+
+            <p-messages [(value)]="messageInformationImport" key="informationImport" [escape]="false"></p-messages>
+            <p-messages [(value)]="messageErreurImport" [escape]="false"></p-messages>
+
+            <div style="padding: 1rem 1rem; display: inline;">
+              <p-fileUpload #fileuploadform mode="basic" accept=".gpkg"
+                name="myFiles[]" [multiple]='false' [maxFileSize]="maxFileSize" [showUploadButton]="false"
+                [showCancelButton]="false" [auto]="true" [customUpload]="true" (uploadHandler)="importEtude($event, fileuploadform)"
+                chooseLabel="Import de l'étude" [disabled]="!form1.valid"  tooltipPosition="top" >
+              </p-fileUpload>
+            </div>
+
+          </div>
+        </div>
+</p-sidebar>
+<app-legend-container
+  [ngClassCondition]="{'sidebar-open': visibleAfficherEtudeSideBar, 'second-sidebar-open': visibleAssocierZonagesEtudeSideBar}"
+  [selectedYear]="selectedYear" [selectedYearMax]="anneeFinEtuValue" [selectedYearMin]="anneeDeRefValue" (yearChanged)="handleYearChanged($event)">
+</app-legend-container>

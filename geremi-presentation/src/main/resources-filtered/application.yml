@@ -1,0 +1,154 @@
+# ===================================================================
+# Spring Boot configuration.
+#
+# Cette configuration sera surchargée en fonction du profil spring utilisé,
+# par exemple application-dev.yml avec le profile "dev".
+#
+# On peut spécifier le profil actif via une option tomcat -Dspring.profiles.active=dev
+# ===================================================================
+
+# ===================================================================
+# Standard Spring Boot properties.
+# Full reference is available at:
+# http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+# ===================================================================
+
+# Chaque propriété ci-dessous peut être surchargée par une variable d'environnement.
+# Par exemple :
+# - en paramètre de tomcat : -Dlogging.config=/chemin/en/prod/logback.xml
+# - en variable système : export LOGGING_CONFIG=/chemin/en/prod/logback.xml
+
+# les règles de conversion sont :
+# - remplacer les (.) par des (_)
+# - supprimer les tirets (-)
+# - tout en majuscule
+# par exemple : spring.main.log-startup-info devient SPRING_MAIN_LOGSTARTUPINFO.
+#--------------------------------------------------------------------
+
+geremi:
+  config:
+    repertoire:
+      temporaire:
+        chemin: "c://dev//temp"
+
+# Il est conseillé en prod de surcharger ce paramètre et de fournir un fichier logback adapté.
+# Celui fourni ici est utile pour le développement.
+logging:
+  config: classpath:logback-spring.xml
+  level:
+      springframework: ERROR
+
+# On active la compression de certaines réponses
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 1024
+  port: 8080
+
+spring:
+  servlet:
+    multipart:
+      enabled: "true"
+      max-file-size: 20MB
+      max-request-size: 20MB
+  mail:
+    host: localhost
+    port: 8025
+  output:
+    ansi:
+      # Mettre des belles couleurs dans les logs de la console
+      enabled: always
+  jpa:
+    # On désactive les sessions dans la couche presentation
+    open-in-view: "false"
+    show-sql: true
+    properties:
+      # Attention, ces properties sont reprises automatiquement dans les beans de configuration JPA : JpaSirhConfiguration etc...
+      # cf la classe JpaUtils. Le dialect est positionné en fonction de la datasource, inutile de le spécifier ici, il sera ignoré.
+      hibernate:
+        show_sql: true
+        format-sql: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        use_sql_comments: false
+        naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
+        id:
+          new_generator_mappings: true
+        temp:
+          use_jdbc_metadata_defaults: false
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        # En PROD : validate ou none
+        # Par mesure de sécurité, il faut placer une variable d'environnement en PROD à validate
+        # sinon : risque de perte de la BDD (par exemple si la valeur create est mise...)
+        hbm2ddl:
+          auto: none
+        default_schema: geremi
+  flyway:
+    # Doit absolument être mis à true en PROD. Il faut ajouter une variable d'environnement par sécurité.
+    clean-disabled: true
+    enabled: false
+    schemas: geremi
+    create-schemas: false
+    locations: classpath:db/migration,classpath:db/dev
+    out-of-order: true
+  # Les connexions aux bases de données utilisées par GEREMI
+  # Les logins et les mots de passe sont à définir en variable d'environnement
+  datasource:
+    url: EXTERNAL_CONF
+    driver-class-name: org.postgresql.Driver
+    username: EXTERNAL_CONF
+    password: EXTERNAL_CONF
+  jackson:
+    serialization:
+      indent_output: true
+  security:
+    oauth2:
+      proxy:
+      resourceserver:
+        jwt:
+          jwk-set-uri: EXTERNAL_CONF
+  mvc:
+    dispatch-options-request: true
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
+# L'url d'accès à la documentation de l'API auto-générée
+# Il y aura alors trois formats :
+# - api est en json
+# - api.yaml sera en yml
+# - api.html est une version interactive basée sur swagger
+springdoc:
+  api-docs:
+    path: /api-docs/api
+  swagger-ui:
+    path: /api-docs/api.html
+    display-request-duration: true
+    operations-sorter: alpha
+    tags-sorter: alpha
+    doc-expansion: none
+
+
+# En prod ne mettre que health
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+# Ce numéro de version est automatiquement mis à jour par le build Maven
+info:
+  app:
+    audience: geremi
+    issuer: EXTERNAL_CONF
+    version: '@project.version@'
+    mail:
+      host: localhost
+      port: 25
+      username:
+      password:
+      auth: "false"
+      tls: "false"
+      from: "mail@exemple.com"

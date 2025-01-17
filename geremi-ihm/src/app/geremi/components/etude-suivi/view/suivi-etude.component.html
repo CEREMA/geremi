@@ -1,0 +1,91 @@
+<p-sidebar [(visible)]="visibleAfficherSuiviEtudeSideBar" [baseZIndex]="10000" [closeOnEscape]="false">
+
+    <div class="p-sidebar-header-custom">
+      <h5 style="margin-top : 1.5rem;">SUIVI DES ÉTUDES</h5>
+
+      <button type="button" pripple class="p-ripple p-element p-sidebar-close p-sidebar-icon p-link" style
+        (click)="closeEtudeSuiviSideBar()">
+        <span class="p-sidebar-close-icon pi pi-times"></span>
+        <span class="p-ink" style="height: 26px; width: 26px; top: -2.25px; left: -9.75px;"></span>
+      </button>
+    </div>
+
+    <div *ngIf="etudes && ((etudes.etudesProprietaire && etudes.etudesProprietaire.length >0) || (etudes.etudesMandataireLectureSeule  && etudes.etudesMandataireLectureSeule.length >0) || (etudes.etudesMandataireEcriture && etudes.etudesMandataireEcriture.length >0) || (etudes.etudesImporte && etudes.etudesImporte.length >0));else pas_d_etude">
+
+      <div *ngIf="etudes && etudes.etudesProprietaire && etudes.etudesProprietaire.length >0">
+        <h5 class="mt-4 ml-4">Mes études</h5>
+        <div class="etude-table">
+          <p-table [value]="etudes.etudesProprietaire">
+            <ng-template pTemplate="body" let-etude>
+              <tr>
+                <!--<td rowspan="2"><img class="picto-territoire" alt="app logo" src="assets/layout/images/LogoCerema.svg" ></td>-->
+                <td class="pb-2" style="padding-left: 1rem;">{{etude.nom}}</td>
+                <td class="width-td-5">
+                  <i [ngClass]="isRetenu(etude) ? 'pi pi-eye icon-pointer icon-green' : 'pi pi-eye icon-pointer'"
+                     (click)="showEtudeLayers(etude)" pTooltip="Consulter">
+                  </i>
+                  <span style="padding-right: 1rem;"></span>
+                  <i class="pi pi-upload icon-pointer" (click)="uploadEtude(etude)" pTooltip="Télécharger"></i>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div *ngIf="etudes && ((etudes.etudesMandataireLectureSeule  && etudes.etudesMandataireLectureSeule.length >0) || (etudes.etudesMandataireEcriture && etudes.etudesMandataireEcriture.length >0))">
+        <h5 class="mt-4 ml-4">Études partagées</h5>
+        <div class="etude-table">
+          <p-table [value]="etudes.etudesMandataireEcriture.concat(etudes.etudesMandataireLectureSeule)">
+            <ng-template pTemplate="body" let-etude>
+              <tr>
+                <!--<td rowspan="2"><img class="picto-territoire" alt="app logo" src="assets/layout/images/LogoCerema.svg"></td>-->
+                <td class="pb-2 border-none" style="padding-left: 1rem;">{{etude.nom}}</td>
+                <td class="width-td-5 border-none">
+                    <i [ngClass]="isRetenu(etude) ? 'pi pi-eye icon-pointer icon-green' : 'pi pi-eye icon-pointer'"
+                       (click)="showEtudeLayers(etude)" pTooltip="Consulter"></i>
+                    <span style="padding-right: 1rem;"></span>
+                    <i class="pi pi-upload icon-pointer" (click)="uploadEtude(etude)" pTooltip="Télécharger"></i>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="pt-0">
+                  <span class="nom-proprietaire-etude" [pTooltip]="etude.proprietaire!.mail">{{etude.proprietaire!.prenom +' '+etude.proprietaire!.nom}}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div *ngIf="etudes && ((etudes.etudesImporte && etudes.etudesImporte.length >0))">
+        <h5 class="mt-4 ml-4">Études importées</h5>
+        <div class="etude-table">
+          <p-table [value]="etudes.etudesImporte">
+            <ng-template pTemplate="body" let-etude>
+              <tr>
+                <!--<td rowspan="2"><img class="picto-territoire" alt="app logo" src="assets/layout/images/LogoCerema.svg"></td>-->
+                <td class="pb-2 border-none" style="padding-left: 1rem;">{{etude.nom}}</td>
+                <td class="width-td-5 border-none">
+                    <i [ngClass]="isRetenu(etude) ? 'pi pi-eye icon-pointer icon-green' : 'pi pi-eye icon-pointer'"
+                       (click)="showEtudeLayers(etude)" pTooltip="Consulter"></i>
+                    <span style="padding-right: 1rem;"></span>
+                    <i class="pi pi-upload icon-pointer" (click)="uploadEtude(etude)" pTooltip="Télécharger"></i>
+                </td>
+              </tr>
+              <tr>
+                <td colspan="2" class="pt-0">
+                  <span class="nom-proprietaire-etude" [pTooltip]="etude.proprietaire!.mail">{{etude.proprietaire!.prenom +' '+etude.proprietaire!.nom}}</span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+    <ng-template #pas_d_etude>Aucune étude en cours</ng-template>
+
+</p-sidebar>
+
+<app-legend-container
+  [ngClassCondition]="{'sidebar-open': visibleAfficherSuiviEtudeSideBar}"
+  [selectedYear]="selectedYear" [selectedYearMax]="anneeFinEtuValue" [selectedYearMin]="anneeDeRefValue" (yearChanged)="handleYearChanged($event)">
+</app-legend-container>
